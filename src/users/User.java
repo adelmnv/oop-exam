@@ -2,6 +2,7 @@ package users;
 
 import java.io.Serializable;
 
+//доделать
 public abstract class User implements Serializable /*, Observer*/ {
 	private static final long serialVersionUID = 1L;
 	private String id;
@@ -80,7 +81,7 @@ public abstract class User implements Serializable /*, Observer*/ {
 	 
 	 //unsubsribeToJournal(Journal journal){}
 	 
-	 abstract void displayFunct();
+	 public abstract void displayFunct();
 	 
 
 }

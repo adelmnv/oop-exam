@@ -55,5 +55,7 @@ public abstract class Employee extends User{
         }
         return messages;
     }
+    
+    public abstract void displayFunct();
 
 }

@@ -1,0 +1,60 @@
+package studying;
+
+import enums.LessonType;
+import users.Teacher;
+
+public class Lesson {
+	private String room;
+	private String time;
+	private LessonType lessonType;
+	private Teacher instructor;
+	
+	public Lesson(String room, String time, LessonType lessonType, Teacher instructor) {
+		this.room = room;
+		this.time = time;
+		this.lessonType = lessonType;
+		this.instructor = instructor;
+	}
+	
+	public String getRoom() {
+		return room;
+	}
+	
+	public void setRoom(String room) {
+		this.room = room;
+	}
+	
+	public String getTime() {
+		return time;
+	}
+	
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
+	public LessonType getLessonType() {
+		return lessonType;
+	}
+	
+	public void setLessonType(LessonType lessonType) {
+		this.lessonType = lessonType;
+	}
+	
+	public Teacher getInstructor() {
+		return instructor;
+	}
+	
+	public void setInstructor(Teacher instructor) {
+		this.instructor = instructor;
+	}
+	
+	public String getLessonDetails() {
+		StringBuilder details = new StringBuilder();
+	    details.append("Room: ").append(room != null ? room : "Not assigned").append("\n");
+	    details.append("Time: ").append(time != null ? time : "Not assigned").append("\n");
+	    details.append("Lesson Type: ").append(lessonType != null ? lessonType.toString() : "Not assigned").append("\n");
+	    details.append("Instructor: ").append(instructor != null ? instructor.getFullName() : "Not assigned").append("\n");
+	    return details.toString();
+	}
+	
+}
