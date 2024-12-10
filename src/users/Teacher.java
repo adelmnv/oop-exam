@@ -3,8 +3,11 @@ package users;
 import java.util.ArrayList;
 import java.util.List;
 
+import communication.Complaint;
+import communication.ComplaintRepository;
 import enums.Faculty;
 import enums.TeacherTitle;
+import enums.UrgencyLevel;
 import studying.Course;
 import studying.GradeBook;
 import studying.Mark;
@@ -15,6 +18,7 @@ public class Teacher extends Employee {
 	private Faculty faculty;
 	private TeacherTitle teacherTitle;
 	private List<Course> courses = new ArrayList<>();
+	private List<Integer> sentComplaintIds = new ArrayList<>();
 
 	public Teacher(String id, String firstName, String lastName, String email, String password, int salary, Faculty faculty, TeacherTitle teacherTitle) {
 		super(id, firstName, lastName, email, password, salary);
@@ -111,12 +115,18 @@ public class Teacher extends Employee {
         }
     }
 
-//    public Complaint createComplaint(String studentId, String text) {
-//        return new Complaint(studentId, text);
-//    }
-//
-//    public Request createRequest(String studentId, String text) {
-//        return new Request(studentId, text);
-//    }
+    public void createComplaint(UrgencyLevel urgencyLevel, Student student) {
+    	Complaint complaint = new Complaint(this, urgencyLevel, student);
+    	int complaintId = ComplaintRepository.addComplaint(complaint);
+        this.sentComplaintIds.add(complaintId);
+    }
+    
+    public List<Complaint> getSentComplaints() {
+        List<Complaint> complaints = new ArrayList<>();
+        for (int id : sentComplaintIds) {
+            complaints.add(ComplaintRepository.getComplaintById(id));
+        }
+        return complaints;
+    }
 
 }

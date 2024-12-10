@@ -3,7 +3,7 @@ package communication;
 import users.Employee;
 
 public class Message {
-	private Employee sender;
+	private final Employee sender;
 	private final String content;
 	private final Employee recipient; 
 	private boolean isOpened;

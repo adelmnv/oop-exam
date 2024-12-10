@@ -5,12 +5,15 @@ import java.util.List;
 
 import communication.Message;
 import communication.MessageRepository;
+import communication.Request;
+import communication.RequestRepository;
 
 public abstract class Employee extends User{
 	private static final long serialVersionUID = 1L;
 	private int salary;
 	private List<Integer> receivedMessageIds = new ArrayList<>();
     private List<Integer> sentMessageIds = new ArrayList<>();
+    private List<Integer> sentRequestIds = new ArrayList<>();
 
 	public Employee(String id, String firstName, String lastName, String email, String password, int salary) {
 		super(id, firstName, lastName, email, password);
@@ -54,6 +57,12 @@ public abstract class Employee extends User{
             messages.add(MessageRepository.getMessageById(id));
         }
         return messages;
+    }
+    
+    public void  createRequest(String content) {
+        Request request = new Request(this, content);
+        int requestId = RequestRepository.addRequest(request);
+        this.sentRequestIds.add(requestId);
     }
     
     public abstract void displayFunct();
