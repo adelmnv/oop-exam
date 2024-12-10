@@ -68,7 +68,6 @@ public abstract class User implements Serializable /*, Observer*/ {
 		 this.isLogged = false;
 	     System.out.println("Logged out successfully.");
 	 }
-	        
 
 	 public void changePassword(String newPassword) {
 		 this.password = newPassword;

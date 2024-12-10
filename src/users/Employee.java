@@ -65,6 +65,15 @@ public abstract class Employee extends User{
         this.sentRequestIds.add(requestId);
     }
     
+    public List<Request> getSentRequests() {
+        List<Request> requests = new ArrayList<>();
+        for (int id : sentRequestIds) {
+            requests.add(RequestRepository.getRequestById(id));
+        }
+        return requests;
+    }
+    
+    
     public abstract void displayFunct();
 
 }
