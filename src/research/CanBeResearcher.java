@@ -1,17 +1,17 @@
 package research;
 
 public class CanBeResearcher {
-    private Researcher researcher;
+    private ResearcherClass researcher;
 
     public CanBeResearcher() {
         this.researcher = null;
     }
 
-    public Researcher getResearcher() {
+    public ResearcherClass getResearcher() {
         return researcher;
     }
 
-    public void setResearcher(Researcher researcher) {
+    public void setResearcher(ResearcherClass researcher) {
         this.researcher = researcher;
     }
 

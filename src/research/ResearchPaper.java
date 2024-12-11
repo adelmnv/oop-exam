@@ -3,12 +3,12 @@ package research;
 public class ResearchPaper{
     private int paperId;
     private String title;
-    private Researcher author;
+    private ResearcherClass author;
     private int publicationYear;
     private int numberOfPages;
     private int citationNumber;
 
-    public ResearchPaper(int paperId, String title, Researcher author, int publicationYear, int numberOfPages, int citationNumber) {
+    public ResearchPaper(int paperId, String title, ResearcherClass author, int publicationYear, int numberOfPages, int citationNumber) {
         this.setPaperId(paperId);
         this.setTitle(title);
         this.setAuthor(author);
@@ -33,11 +33,11 @@ public class ResearchPaper{
         this.title = title;
     }
 
-    public Researcher getAuthor() {
+    public ResearcherClass getAuthor() {
         return author;
     }
 
-    public void setAuthor(Researcher author) {
+    public void setAuthor(ResearcherClass author) {
         this.author = author;
     }
 
@@ -88,7 +88,7 @@ public class ResearchPaper{
 
 
     public static void main(String[] args) {
-        Researcher researcher = new Researcher();
+        ResearcherClass researcher = new ResearcherClass();
         researcher.setName("Aibar");
 
         ResearchPaper paper = new ResearchPaper(1, "Science research", researcher, 2024, 05, 13);

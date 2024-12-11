@@ -62,7 +62,7 @@ public class ResearchProject {
         setProjectName(newProjectName);
     }
     public static void main(String[] args) {
-        Researcher researcher = new Researcher();
+        ResearcherClass researcher = new ResearcherClass();
         researcher.setName("Aibar");
 
         ResearchPaper paper = new ResearchPaper(1, "KBTU research", researcher, 2003, 05, 30);
