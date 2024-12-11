@@ -9,6 +9,7 @@ import enums.Faculty;
 import enums.TeacherTitle;
 import enums.UrgencyLevel;
 import studying.Course;
+import studying.CourseRepository;
 import studying.GradeBook;
 import studying.Mark;
 
@@ -17,7 +18,7 @@ public class Teacher extends Employee {
 	private static final long serialVersionUID = 1L;
 	private Faculty faculty;
 	private TeacherTitle teacherTitle;
-	private List<Course> courses = new ArrayList<>();
+	private List<String> courseCodes = new ArrayList<>();
 	private List<Integer> sentComplaintIds = new ArrayList<>();
 
 	public Teacher(String id, String firstName, String lastName, String email, String password, int salary, Faculty faculty, TeacherTitle teacherTitle) {
@@ -41,14 +42,14 @@ public class Teacher extends Employee {
 	public void setTeacherTitle(TeacherTitle teacherTitle) {
 		this.teacherTitle = teacherTitle;
 	}
+	
+	public List<String> getCourseCodes() {
+        return courseCodes;
+    }
 
-	public List<Course> getCourses() {
-		return courses;
-	}
-
-	public void setCourses(List<Course> courses) {
-		this.courses = courses;
-	}
+    public void setCourseCodes(List<String> courseCodes) {
+        this.courseCodes = courseCodes;
+    }
 	
 	public String getFullName() {
 		return super.getFirstName() + super.getLastName();
@@ -59,15 +60,67 @@ public class Teacher extends Employee {
 		// TODO Auto-generated method stub
 		
 	}
-	
-    public String viewStudentInfo(Student student, Course course) {
-        GradeBook gradeBook = course.getGradebook().get(student);
-        if (gradeBook != null) {
-            return String.format("Student: %s\nGrade Details:\n%s", student.getFullName(), gradeBook.getGradeDetails());
-        } else {
-            return "No grade information available for the student.";
+    
+    public void addCourse(String courseCode) {
+        if (!courseCodes.contains(courseCode)) {
+            courseCodes.add(courseCode);
         }
     }
+
+    public void removeCourse(String courseCode) {
+        courseCodes.remove(courseCode);
+    }
+
+    public List<Course> getCourses() {
+        List<Course> courses = new ArrayList<>();
+        for (String courseCode : courseCodes) {
+            Course course = CourseRepository.getCourseByCode(courseCode);
+            if (course != null) {
+                courses.add(course);
+            }
+        }
+        return courses;
+    }
+    
+//    public String viewCourseInfo(Course course) {
+//    	if(courseCodes.contains(course.getCourseCode())) {
+//    		return course.getCourseDetails();
+//    	}else {
+//            return "No course information available for the teacher.";
+//        }
+//    }
+    
+    public String viewCourseInfo(String courseCode) {
+        Course course = CourseRepository.getCourseByCode(courseCode);
+        if (course != null) {
+            return course.getCourseDetails();
+        } else {
+            return "No course information available for the teacher.";
+        }
+    }
+    
+//	  public String viewStudentInfo(Student student, Course course) {
+//	  GradeBook gradeBook = course.getGradebook().get(student);
+//	  if (gradeBook != null) {
+//	      return String.format("Student: %s\nGrade Details:\n%s", student.getFullName(), gradeBook.getGradeDetails());
+//	  } else {
+//	      return "No grade information available for the student.";
+//	  }
+//	}
+	
+	public String viewStudentInfo(Student student, String courseCode) {
+	  Course course = CourseRepository.getCourseByCode(courseCode);
+	  if (course != null) {
+	      GradeBook gradeBook = course.getGradebook().get(student);
+	      if (gradeBook != null) {
+	          return String.format("Student: %s\nGrade Details:\n%s", student.getFullName(), gradeBook.getGradeDetails());
+	      } else {
+	          return "No grade information available for the student.";
+	      }
+	  } else {
+	      return "Course not found.";
+	  }
+	}
 
     public void putMark(Student student, Mark mark, Course course) {
         GradeBook gradeBook = course.getGradebook().get(student);

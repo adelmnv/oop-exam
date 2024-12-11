@@ -91,6 +91,10 @@ public class Course {
 		this.gradebook = gradebook;
 	}
 	
+	public int getRegisteredStudentCount() {
+        return gradebook.size();
+    }
+	
 	public String getCourseDetails() {
 		StringBuilder details = new StringBuilder();
 
@@ -120,6 +124,15 @@ public class Course {
 	    }
 
 	    return details.toString();
+	}
+	
+	public void registerStudent(Student student) {
+	    if (!gradebook.containsKey(student)) {
+	        gradebook.put(student, new GradeBook());
+	        System.out.println("Student " + student.getFullName() + " has been added to the course " + courseName);
+	    } else {
+	        System.out.println("Student " + student.getFullName() + " is already registered for the course " + courseName);
+	    }
 	}
 	
 }

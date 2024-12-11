@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import communication.Complaint;
 import communication.ComplaintRepository;
 import communication.Request;
+import communication.RequestRepository;
 
 public class Dean extends Employee{
 	private static final long serialVersionUID = 1L;
@@ -42,6 +43,12 @@ public class Dean extends Employee{
         List<Complaint> complaints = ComplaintRepository.getUnansweredComplaints();
         System.out.println("Fetched " + complaints.size() + " unanswered complaints.");
         this.setComplaints(complaints);
+    }
+	
+	public void fetchUnsignedRequests() {
+        List<Request> requests = RequestRepository.getUnsignedRequests();
+        System.out.println("Fetched " + requests.size() + " insigned requests.");
+        this.setRequests(requests);
     }
 
     public void answerComplaint(Complaint complaint, String messageContent) {
