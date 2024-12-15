@@ -6,26 +6,30 @@ import java.util.List;
 import java.util.Map;
 
 import enums.Faculty;
+import research.Researcher;
+import research.StudentResearcher;
 import studying.Course;
 import studying.CourseRepository;
 import studying.Lesson;
 import studying.LessonComparator;
+import utils.IdGenerator;
 
-// доделать
 public class Student extends User{
 	private static final long serialVersionUID = 1L;
 	private String studentId;
 	private int yearOfStudy;
 	private Faculty faculty;
 	private boolean canHaveScholarship;
+	private Researcher supervisor;
 	private Map<Course, List<Lesson>> registeredCourses = new HashMap<>();
 	
-	public Student(String id, String firstName, String lastName, String email, String password, String studentId, int yearOfStudy, Faculty faculty, boolean canHaveScholarship) {
-		super(id, firstName, lastName, email, password);
+	public Student(String firstName, String lastName, String email, String password, String studentId, int yearOfStudy, Faculty faculty, boolean canHaveScholarship) {
+		super(IdGenerator.generateUniqueId("B"), firstName, lastName, email, password);
 		this.studentId = studentId;
 		this.yearOfStudy = yearOfStudy;
 		this.faculty = faculty;
 		this.canHaveScholarship = canHaveScholarship;
+		this.supervisor = null;
 	}
 
 	public String getStudentId() {
@@ -143,5 +147,29 @@ public class Student extends User{
     	    Course course = lessonToCourseMap.get(lesson);
     	    System.out.println("Course: " + course.getCourseName() + " " + lesson.getLessonDetails());
     	}
+    }
+    
+    public boolean setSupervisor(Researcher supervisor) {
+        if (getYearOfStudy() != 4) {
+            System.out.println("Only 4th-year students can have a supervisor.");
+            return false;
+        }
+        if (supervisor.calculateHIndex() < 3) {
+            System.out.println(supervisor.getResearcherName() + " does not have enough h-index to be a supervisor.");
+            return false;
+        }
+        this.supervisor = supervisor;
+        System.out.println(supervisor.getResearcherName() + " is now the supervisor of " + getFullName());
+        return true;  
+    }
+    
+    public Researcher getSupervisor() {
+    	 return supervisor;
+    }
+    
+    public Researcher becomeResearcher() {
+    	Researcher researcher = new StudentResearcher(this);
+        System.out.println(getFullName() + " is now a researcher.");
+        return researcher;
     }
 }

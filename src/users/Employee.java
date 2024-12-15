@@ -7,6 +7,8 @@ import communication.Message;
 import communication.MessageRepository;
 import communication.Request;
 import communication.RequestRepository;
+import research.EmployeeResearcher;
+import research.Researcher;
 
 public abstract class Employee extends User{
 	private static final long serialVersionUID = 1L;
@@ -26,6 +28,10 @@ public abstract class Employee extends User{
 
 	public void setSalary(int salary) {
 		this.salary = salary;
+	}
+	
+	public String getFullName() {
+		return super.getFirstName() + super.getLastName();
 	}
 	
 	public void sendMessage(Employee recipient, String content) {
@@ -75,5 +81,11 @@ public abstract class Employee extends User{
     
     
     public abstract void displayFunct();
+    
+    public Researcher becomeResearcher() {
+    	Researcher researcher = new EmployeeResearcher(this);
+        System.out.println(getFullName() + " is now a researcher.");
+        return researcher;
+    }
 
 }

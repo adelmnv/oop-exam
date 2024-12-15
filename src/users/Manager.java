@@ -8,8 +8,11 @@ import communication.Request;
 import communication.RequestRepository;
 import enums.LessonType;
 import enums.ManagerType;
+import research.EmployeeResearcher;
+import research.Researcher;
 import studying.Course;
 import studying.Lesson;
+import utils.IdGenerator;
 
 //доделать
 public class Manager extends Employee{
@@ -17,8 +20,8 @@ public class Manager extends Employee{
 	private ManagerType managerType;
 	private List<Request> signedRequests = new ArrayList<>();
 
-	public Manager(String id, String firstName, String lastName, String email, String password, int salary, ManagerType managerType) {
-		super(id, firstName, lastName, email, password, salary);
+	public Manager(String firstName, String lastName, String email, String password, int salary, ManagerType managerType) {
+		super(IdGenerator.generateUniqueId("M"), firstName, lastName, email, password, salary);
 		this.managerType = managerType;
 	}
 
@@ -88,9 +91,7 @@ public class Manager extends Employee{
         System.out.println("Fetched " + requests.size() + " signed requests.");
         this.setSignedRequests(requests);
     }
+	
 
-	
-	
-	
-	
+
 }

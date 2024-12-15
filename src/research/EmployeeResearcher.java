@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import users.Student;
+import users.Employee;
 
-public class StudentResearcher extends ResearcherDecorator {
-	private Student student;
+public class EmployeeResearcher extends ResearcherDecorator{
+	private Employee employee;
 	private List<ResearchPaper> publications = new ArrayList<>();
 	private List<ResearchProject> projects = new ArrayList<>();
 	
-    public StudentResearcher(Student student) {
-		this.student = student;
+    public EmployeeResearcher(Employee employee) {
+		this.employee = employee;
 	}
     
-    public Student getStudent() {
-		return student;
+    public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 	
 	public List<ResearchProject> getProjects() {
@@ -123,7 +123,7 @@ public class StudentResearcher extends ResearcherDecorator {
 
 	@Override
 	public String getResearcherName() {
-		return student.getFullName();
+		return employee.getFullName();
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class StudentResearcher extends ResearcherDecorator {
 	@Override
 	public String toString() {
 	    StringBuilder researcherInfo = new StringBuilder();
-	    researcherInfo.append("Student Researcher: ").append(student.getFullName())
+	    researcherInfo.append("Employee Researcher: ").append(employee.getFullName())
 	                  .append("\nPublications: ").append(publications.size())
 	                  .append("\nProjects: ").append(projects.size()).append("\n");
 
@@ -153,4 +153,5 @@ public class StudentResearcher extends ResearcherDecorator {
 	    }
 	    return researcherInfo.toString();
 	}
+
 }

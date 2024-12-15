@@ -7,14 +7,15 @@ import communication.Complaint;
 import communication.ComplaintRepository;
 import communication.Request;
 import communication.RequestRepository;
+import utils.IdGenerator;
 
 public class Dean extends Employee{
 	private static final long serialVersionUID = 1L;
 	private List<Complaint> complaints = new ArrayList<>();
 	private List<Request> requests = new ArrayList<>();
 
-	public Dean(String id, String firstName, String lastName, String email, String password, int salary) {
-		super(id, firstName, lastName, email, password, salary);
+	public Dean(String firstName, String lastName, String email, String password, int salary) {
+		super(IdGenerator.generateUniqueId("D"),firstName, lastName, email, password, salary);
 	}
 
 	@Override

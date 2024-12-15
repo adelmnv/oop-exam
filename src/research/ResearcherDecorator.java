@@ -6,8 +6,12 @@ import java.util.List;
 public abstract class ResearcherDecorator implements Researcher {
     protected Researcher wrappedResearcher;
 
-    public ResearcherDecorator(Researcher researcher) {
+    public void setResearcher(Researcher researcher) {
         this.wrappedResearcher = researcher;
+    }
+    
+    public Researcher getResearcher() {
+    	return this.wrappedResearcher;
     }
 
     @Override
@@ -26,8 +30,8 @@ public abstract class ResearcherDecorator implements Researcher {
     }
 
     @Override
-    public void proposeProject() {
-        wrappedResearcher.proposeProject();
+    public void proposeProject(String projectName) {
+        wrappedResearcher.proposeProject(projectName);
     }
 
     @Override
@@ -40,3 +44,24 @@ public abstract class ResearcherDecorator implements Researcher {
         return wrappedResearcher.getPublications();
     }
 }
+
+
+//public String printPapers(ResearchProject project, Comparator<ResearchPaper> comparator) {
+//	List<ResearchPaper> papers = project.getPapers();
+//    Collections.sort(papers, comparator);
+//
+//    StringBuilder result = new StringBuilder();
+//    result.append("Papers for Project: ").append(project.getProjectName()).append("\n");
+//
+//    for (ResearchPaper paper : papers) {
+//        result.append("Paper ID: ").append(paper.getPaperId())
+//              .append(", Paper Title: ").append(paper.getTitle())
+//              .append(", Author: ").append(paper.getAuthor().getName())
+//              .append(", Publication Year: ").append(paper.getPublicationYear())
+//              .append(", Number of Pages: ").append(paper.getNumberOfPages())
+//              .append(", Citation Number: ").append(paper.getCitationNumber())
+//              .append("\n");
+//    }
+//
+//    return result.toString();
+//}

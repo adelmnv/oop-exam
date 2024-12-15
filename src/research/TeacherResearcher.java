@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import users.Student;
+import users.Teacher;
 
-public class StudentResearcher extends ResearcherDecorator {
-	private Student student;
+public class TeacherResearcher extends ResearcherDecorator{
+	private Teacher teacher;
 	private List<ResearchPaper> publications = new ArrayList<>();
 	private List<ResearchProject> projects = new ArrayList<>();
 	
-    public StudentResearcher(Student student) {
-		this.student = student;
+    public TeacherResearcher(Teacher teacher) {
+		this.teacher = teacher;
 	}
     
-    public Student getStudent() {
-		return student;
+    public Teacher getTeacher() {
+		return teacher;
 	}
 
-	public void setStudent(Student student) {
-		this.student = student;
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
 	}
 	
 	public List<ResearchProject> getProjects() {
@@ -123,7 +123,7 @@ public class StudentResearcher extends ResearcherDecorator {
 
 	@Override
 	public String getResearcherName() {
-		return student.getFullName();
+		return teacher.getFullName();
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class StudentResearcher extends ResearcherDecorator {
 	@Override
 	public String toString() {
 	    StringBuilder researcherInfo = new StringBuilder();
-	    researcherInfo.append("Student Researcher: ").append(student.getFullName())
+	    researcherInfo.append("Teacher Researcher: ").append(teacher.getFullName())
 	                  .append("\nPublications: ").append(publications.size())
 	                  .append("\nProjects: ").append(projects.size()).append("\n");
 

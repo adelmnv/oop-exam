@@ -8,10 +8,13 @@ import communication.ComplaintRepository;
 import enums.Faculty;
 import enums.TeacherTitle;
 import enums.UrgencyLevel;
+import research.TeacherResearcher;
+import research.Researcher;
 import studying.Course;
 import studying.CourseRepository;
 import studying.GradeBook;
 import studying.Mark;
+import utils.IdGenerator;
 
 //доделать
 public class Teacher extends Employee {
@@ -21,8 +24,8 @@ public class Teacher extends Employee {
 	private List<String> courseCodes = new ArrayList<>();
 	private List<Integer> sentComplaintIds = new ArrayList<>();
 
-	public Teacher(String id, String firstName, String lastName, String email, String password, int salary, Faculty faculty, TeacherTitle teacherTitle) {
-		super(id, firstName, lastName, email, password, salary);
+	public Teacher(String firstName, String lastName, String email, String password, int salary, Faculty faculty, TeacherTitle teacherTitle) {
+		super(IdGenerator.generateUniqueId("T"), firstName, lastName, email, password, salary);
 		this.faculty = faculty;
 		this.teacherTitle = teacherTitle;
 	}
@@ -180,6 +183,13 @@ public class Teacher extends Employee {
             complaints.add(ComplaintRepository.getComplaintById(id));
         }
         return complaints;
+    }
+    
+    @Override
+    public Researcher becomeResearcher() {
+    	Researcher researcher = new TeacherResearcher(this);
+        System.out.println(getFullName() + " is now a researcher.");
+        return researcher;
     }
 
 }
