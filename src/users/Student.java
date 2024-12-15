@@ -172,4 +172,8 @@ public class Student extends User{
         System.out.println(getFullName() + " is now a researcher.");
         return researcher;
     }
+    
+    public void joinStudentOrganization(StudentOrganization so, String role) {
+    	so.addMember(this, role);
+    }
 }
