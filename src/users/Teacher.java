@@ -8,12 +8,12 @@ import communication.ComplaintRepository;
 import enums.Faculty;
 import enums.TeacherTitle;
 import enums.UrgencyLevel;
+import grading.GradeBook;
+import grading.Mark;
 import research.TeacherResearcher;
 import research.Researcher;
 import studying.Course;
 import studying.CourseRepository;
-import studying.GradeBook;
-import studying.Mark;
 import utils.IdGenerator;
 
 //доделать

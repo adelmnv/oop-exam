@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import enums.Faculty;
+import grading.GradeBook;
+import grading.Transcript;
 import research.Researcher;
 import research.StudentResearcher;
 import studying.Course;
@@ -176,4 +178,62 @@ public class Student extends User{
     public void joinStudentOrganization(StudentOrganization so, String role) {
     	so.addMember(this, role);
     }
+    
+    public GradeBook getGradeForCourse(Course course) {
+        return course.getGradebook().get(this);
+    }
+
+    Map<String, String> getAllGrades() {
+        Map<String, String> grades = new HashMap<>();
+        for (Map.Entry<Course, List<Lesson>> entry : registeredCourses.entrySet()) {
+            Course course = entry.getKey();
+            GradeBook gradeBookEntry = getGradeForCourse(course);
+            if (gradeBookEntry != null) {
+                grades.put(course.getCourseCode(), gradeBookEntry.getGradeDetails());
+            } else {
+                grades.put(course.getCourseCode(), "No grades recorded yet.");
+            }
+        }
+        return grades;
+    }
+
+    public String getGradeForSpecificCourse(String courseCode) {
+        Course course = CourseRepository.getCourseByCode(courseCode);
+        if (course == null || !registeredCourses.containsKey(course)) {
+            return null;
+        }
+        GradeBook gradeBookEntry = getGradeForCourse(course);
+        return (gradeBookEntry != null) ? gradeBookEntry.getGradeDetails() : "No grades recorded yet.";
+    }
+
+    public void displayGradesForAllCourses() {
+        Map<String, String> grades = getAllGrades();
+        if (grades.isEmpty()) {
+            System.out.println("No grades available to display.");
+        } else {
+            grades.forEach((key, value) -> {
+                System.out.println("Course Code: " + key + " | Grade: " + value);
+            });
+        }
+    }
+
+    public void displayGradeForSpecificCourse(String courseCode) {
+        if (courseCode == null || courseCode.isEmpty()) {
+            System.out.println("Invalid course code provided.");
+            return;
+        }
+        String grade = getGradeForSpecificCourse(courseCode);
+        if (grade == null) {
+            System.out.println("You are not registered for the course with code: " + courseCode);
+        } else {
+            System.out.println("Course Code: " + courseCode + " | Grade: " + grade);
+        }
+    }
+    
+    public void viewTranscript() {
+    	Transcript transcript = new Transcript(this);
+    	System.out.println(transcript.generateTranscript());
+    	transcript.printStatistics();
+    }
+
 }

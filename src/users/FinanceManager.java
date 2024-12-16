@@ -1,7 +1,10 @@
 package users;
 
 import java.util.List;
+import java.util.Map;
+
 import enums.ManagerType;
+import grading.GradeBook;
 
 public class FinanceManager extends Employee {
 	private static final long serialVersionUID = 1L;
@@ -12,39 +15,36 @@ public class FinanceManager extends Employee {
         this.managerType = managerType;
     }
 
-	@Override
-	public void displayFunct() {
-		// TODO Auto-generated method stub
-		
-	}
-
 //    public void scholarshipReport(List<Student> students) {
 //        for (Student student : students) {
-//            boolean isEligibleForScholarship = true;
-//            
-//            for (SubjectScore score : student.getSubjectScores()) {
-//                if (score.getScore() < 70) {  
-//                    isEligibleForScholarship = false;
-//                    System.out.println(student.getFullName() + " Doesnt not receive a scholarship: " + score.getSubject());
-//                    break;
-//                }
-//            }
+//            Map<String, String> gradeBook = student.getAllGrades(); 
+//            double totalMark = gradeBook.getTotalMark();
 //
-//            if (isEligibleForScholarship) {
-//                System.out.println(student.getFullName() + " receive a scholarship!");
+//            if (totalMark >= 70 && student.canHaveScholarship()) {
+//                System.out.println(student.getFullName() + " receives a scholarship!");
+//            } else {
+//                System.out.println(student.getFullName() + " doesnt receive a scholarship.");
 //            }
 //        }
 //    }
-//    
-//    public void generateSalaryReport(List<Employee> employees) {
-//        for (Employee employee : employees) {
-//            int baseSalary = employee.getSalary();
-//            System.out.println(employee.getFullName() + " получает зарплату: " + baseSalary);
-//        }
-//    }
-//
-//    public  void displayFunct() {
-//     System.out.println("Finance Manager can: generate scholarship report and generate salary report");
-//    }
+
+    public void generateSalaryReport(List<Employee> employees) {
+        for (Employee employee : employees) {
+            int baseSalary = employee.getSalary();
+            System.out.println(employee.getFullName() + " получает зарплату: " + baseSalary);
+        }
+    }
+    
+    public  void displayFunct() {
+     System.out.println("Finance Manager can: generate scholarship report and generate salary report");
+    }
+
+	public ManagerType getManagerType() {
+		return managerType;
+	}
+
+	public void setManagerType(ManagerType managerType) {
+		this.managerType = managerType;
+	}
     
 }

@@ -1,4 +1,4 @@
-package studying;
+package grading;
 
 public class Mark {
 	private Double firstAttestation;
