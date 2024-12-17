@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import enums.Faculty;
 import grading.GradeBook;
+import grading.Mark;
 import grading.Transcript;
 import research.Researcher;
 import research.StudentResearcher;
@@ -196,6 +197,17 @@ public class Student extends User{
             }
         }
         return grades;
+    }
+    
+    List<Double> getAllTotalMarks(){
+    	List<Double> totalMarks = new ArrayList<>();
+    	for (Course course : registeredCourses.keySet()) {
+    	    GradeBook gradeBookEntry = getGradeForCourse(course);
+    	    if (gradeBookEntry != null) {
+    	        totalMarks.add(gradeBookEntry.getTotalMark());
+    	    }
+    	}
+    	return totalMarks;
     }
 
     public String getGradeForSpecificCourse(String courseCode) {

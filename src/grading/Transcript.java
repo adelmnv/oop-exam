@@ -1,5 +1,6 @@
 package grading;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +9,9 @@ import studying.Course;
 import studying.Lesson;
 import users.Student;
 
-public class Transcript {
-    private Student student;
+public class Transcript implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private Student student;
     private List<GradeReport> gradeReports;
 
     public Transcript(Student student) {

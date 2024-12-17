@@ -3,7 +3,6 @@ package users;
 import java.util.List;
 import java.util.Scanner;
 import enums.ManagerType;
-import grading.GradeBook;
 import studying.Course;
 
 public class FinanceManager extends Employee {
@@ -28,7 +27,7 @@ public class FinanceManager extends Employee {
                 generateSalaryReport(employees);
                 break;
             case 2:
-  //              generateScholarshipReport(courses, students); // Передаем оба списка
+                generateScholarshipReport(students);
                 break;
             case 3:
                 System.out.println("Exiting the program.");
@@ -57,19 +56,24 @@ public class FinanceManager extends Employee {
             System.out.println(employee.getFullName() + " получает зарплату: " + baseSalary);
         }
     }
-
-//  public void scholarshipReport(List<Student> students) {
-//  for (Student student : students) {
-//      Map<String, String> gradeBook = student.getAllGrades(); 
-//      double totalMark = gradeBook.getTotalMark();
-//
-//      if (totalMark >= 70 && student.canHaveScholarship()) {
-//          System.out.println(student.getFullName() + " receives a scholarship!");
-//      } else {
-//          System.out.println(student.getFullName() + " doesnt receive a scholarship.");
-//      }
-//  }
-//}
+    
+    public void generateScholarshipReport(List<Student> students) {
+        for (Student student : students) {
+            boolean receivesScholarship = true;
+            for (double totalMark : student.getAllTotalMarks()) {
+                if (totalMark < 70 || !student.canHaveScholarship()) {
+                	student.setCanHaveScholarship(false);
+                    receivesScholarship = false;
+                    break;
+                }
+            }
+            if (receivesScholarship) {
+                System.out.println(student.getFullName() + " qualifies for a scholarship.");
+            } else {
+                System.out.println(student.getFullName() + " doesn't qualify for a scholarship.");
+            }
+        }
+    }
 
     @Override
     public String toString() {
