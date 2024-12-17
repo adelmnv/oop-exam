@@ -1,8 +1,11 @@
 package communication;
 
+import java.io.Serializable;
+
 import users.Employee;
 
-public class Request {
+public class Request implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private final Employee sender;
 	private final String content; 
 	private boolean isSigned;

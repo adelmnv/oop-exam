@@ -1,10 +1,13 @@
 package communication;
 
+import java.io.Serializable;
+
 import enums.UrgencyLevel;
 import users.Student;
 import users.Teacher;
 
-public class Complaint {
+public class Complaint implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private final Teacher sender;
 	private final UrgencyLevel urgencyLevel;
 	private final Student student; 

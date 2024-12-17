@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import enums.Faculty;
 import grading.GradeBook;
@@ -16,9 +17,9 @@ import studying.Lesson;
 import studying.LessonComparator;
 import utils.IdGenerator;
 
+//просмотр журналов новостей и проектов
 public class Student extends User{
 	private static final long serialVersionUID = 1L;
-	private String studentId;
 	private int yearOfStudy;
 	private Faculty faculty;
 	private boolean canHaveScholarship;
@@ -27,19 +28,10 @@ public class Student extends User{
 	
 	public Student(String firstName, String lastName, String email, String password, String studentId, int yearOfStudy, Faculty faculty, boolean canHaveScholarship) {
 		super(IdGenerator.generateUniqueId("B"), firstName, lastName, email, password);
-		this.studentId = studentId;
 		this.yearOfStudy = yearOfStudy;
 		this.faculty = faculty;
 		this.canHaveScholarship = canHaveScholarship;
 		this.supervisor = null;
-	}
-
-	public String getStudentId() {
-		return studentId;
-	}
-	
-	public void setStudentId(String studentId) {
-		this.studentId = studentId;
 	}
 	
 	public int getYearOfStudy() {
@@ -72,8 +64,17 @@ public class Student extends User{
 
 	@Override
 	public void displayFunct() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Student Functions:");
+	    System.out.println("1. View Schedule");
+	    System.out.println("2. View Courses");
+	    System.out.println("3. Register for Course");
+	    System.out.println("4. View Course Details");
+	    System.out.println("5. View Grades for All Courses");
+	    System.out.println("6. View Grade for Specific Course");
+	    System.out.println("7. Set Supervisor");
+	    System.out.println("8. Become a Researcher");
+	    System.out.println("9. Join Student Organization");
+	    System.out.println("10. View Transcript");
 	}
 	
 	public List<Course> viewCourses(){
@@ -234,6 +235,40 @@ public class Student extends User{
     	Transcript transcript = new Transcript(this);
     	System.out.println(transcript.generateTranscript());
     	transcript.printStatistics();
+    }
+    
+    @Override
+    public String toString() {
+        return "Student{" +
+                "studentId='" + getId() + '\'' +
+                ", fullName='" + getFullName() + '\'' +
+                ", yearOfStudy=" + yearOfStudy +
+                ", faculty=" + faculty +
+                ", canHaveScholarship=" + canHaveScholarship +
+                ", supervisor=" + (supervisor != null ? supervisor.getResearcherName() : "No supervisor") +
+                ", registeredCourses=" + registeredCourses.size() +
+                '}';
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Student student = (Student) obj;
+        return Objects.equals(getId(), student.getId()) &&
+        	   Objects.equals(getFullName(), student.getFullName()) &&
+               yearOfStudy == student.yearOfStudy &&
+               faculty == student.faculty &&
+               canHaveScholarship == student.canHaveScholarship;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getFullName(), yearOfStudy, faculty, canHaveScholarship, supervisor);
     }
 
 }

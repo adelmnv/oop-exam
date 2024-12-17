@@ -2,6 +2,7 @@ package users;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import communication.Complaint;
 import communication.ComplaintRepository;
@@ -14,9 +15,10 @@ import research.TeacherResearcher;
 import research.Researcher;
 import studying.Course;
 import studying.CourseRepository;
+import studying.Lesson;
 import utils.IdGenerator;
 
-//доделать
+//просмотр журналов новостей и проектов
 public class Teacher extends Employee {
 	private static final long serialVersionUID = 1L;
 	private Faculty faculty;
@@ -59,10 +61,18 @@ public class Teacher extends Employee {
 	}
 	
 	@Override
-	public void displayFunct() {
-		// TODO Auto-generated method stub
-		
-	}
+    public void displayFunct() {
+        System.out.println("Teacher Functions:");
+        System.out.println("1. View Teaching Courses Info");
+        System.out.println("2. View Course Info");
+        System.out.println("3. View Student Info");
+        System.out.println("4. Grade Student");
+        System.out.println("5. Create Complaint");
+        System.out.println("6. View Complaints");
+        System.out.println("7. Become a Researcher");
+        System.out.println("8. View Schedule");
+        System.out.println("9. View Messages");
+    }
     
     public void addCourse(String courseCode) {
         if (!courseCodes.contains(courseCode)) {
@@ -85,6 +95,21 @@ public class Teacher extends Employee {
         return courses;
     }
     
+    public String viewCourses() {
+        if (courseCodes.isEmpty()) {
+            return "The teacher is not teaching any courses.";
+        } else {
+            StringBuilder courseList = new StringBuilder("Courses taught by the teacher:\n");
+            for (String courseCode : courseCodes) {
+                Course course = CourseRepository.getCourseByCode(courseCode);
+                if (course != null) {
+                    courseList.append(course.getCourseDetails()).append("\n");
+                }
+            }
+            return courseList.toString();
+        }
+    }
+    
 //    public String viewCourseInfo(Course course) {
 //    	if(courseCodes.contains(course.getCourseCode())) {
 //    		return course.getCourseDetails();
@@ -101,6 +126,7 @@ public class Teacher extends Employee {
             return "No course information available for the teacher.";
         }
     }
+    
     
 //	  public String viewStudentInfo(Student student, Course course) {
 //	  GradeBook gradeBook = course.getGradebook().get(student);
@@ -185,11 +211,59 @@ public class Teacher extends Employee {
         return complaints;
     }
     
+    public String viewSchedule() {
+        StringBuilder schedule = new StringBuilder();
+        if (courseCodes.isEmpty()) {
+            return "The teacher is not teaching any courses.";
+        }
+        for (String courseCode : courseCodes) {
+            Course course = CourseRepository.getCourseByCode(courseCode);
+            if (course != null) {
+                schedule.append("Schedule for course: ").append(course.getCourseName()).append("\n");
+                for (Lesson lesson : course.getLessons()) {
+                    if (lesson.getInstructor().equals(this)) {
+                        schedule.append("  - ").append(lesson.getLessonDetails()).append("\n");
+                    }
+                }
+            }
+        }
+        if (schedule.length() == 0) {
+            return "No lessons assigned for the teacher.";
+        }
+
+        return schedule.toString();
+    }
+    
     @Override
     public Researcher becomeResearcher() {
     	Researcher researcher = new TeacherResearcher(this);
         System.out.println(getFullName() + " is now a researcher.");
         return researcher;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("Teacher: %s %s\nTitle: %s\nFaculty: %s\nCourses: %s", 
+                              getFirstName(), getLastName(), teacherTitle, faculty, courseCodes);
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Teacher teacher = (Teacher) obj;
+        return Objects.equals(getId(), teacher.getId()) &&
+               Objects.equals(getFirstName(), teacher.getFirstName()) &&
+               Objects.equals(getLastName(), teacher.getLastName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getFirstName(), getLastName());
     }
 
 }

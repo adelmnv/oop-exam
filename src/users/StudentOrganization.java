@@ -111,4 +111,34 @@ public class StudentOrganization {
     public List<String> getEvents() {
         return events;
     }
+    
+    public void displayOrganizationInfo() {
+        System.out.println("Organization Name: " + name);
+        System.out.println("\nMembers and their Roles:");
+        if (members.isEmpty()) {
+            System.out.println("No members in the organization.");
+        } else {
+            for (Student student : members) {
+                System.out.println(student.getFullName() + " - Role: " + studentRoles.get(student));
+            }
+        }
+
+        System.out.println("\nEvents and Participation:");
+        if (events.isEmpty()) {
+            System.out.println("No events organized yet.");
+        } else {
+            for (String event : events) {
+                System.out.println("Event: " + event);
+                List<Student> participants = getParticipants(event);
+                if (participants.isEmpty()) {
+                    System.out.println("No participants yet.");
+                } else {
+                    for (Student student : participants) {
+                        System.out.println("- " + student.getFullName() + " participated in the event.");
+                    }
+                }
+            }
+        }
+    }
+
 }

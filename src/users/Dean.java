@@ -20,8 +20,13 @@ public class Dean extends Employee{
 
 	@Override
 	public void displayFunct() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Dean Functions:");
+	    System.out.println("1. Fetch Unanswered Complaints");
+	    System.out.println("2. Fetch Unsigned Requests");
+	    System.out.println("3. Answer a Complaint");
+	    System.out.println("4. Sign a Request");
+	    System.out.println("5. View All Complaints");
+	    System.out.println("6. View All Requests");
 	}
 
 	public List<Complaint> getComplaints() {

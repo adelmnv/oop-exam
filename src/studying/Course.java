@@ -1,5 +1,6 @@
 package studying;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,8 @@ import enums.Faculty;
 import grading.GradeBook;
 import users.Student;
 
-public class Course {
+public class Course implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String courseName;
 	private String courseCode;
 	private Faculty faculty;
