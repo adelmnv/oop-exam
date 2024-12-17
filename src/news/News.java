@@ -1,55 +1,29 @@
 package news;
 
-
+import enums.NewsTopic;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
-// Observer interface
-interface Observer {
-    void update(News news);
-}
-
-// Observable class
-class NewsManager {
-    private final List<Observer> observers = new ArrayList<>();
-
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
-
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    public void notifyObservers(News news) {
-        for (Observer observer : observers) {
-            observer.update(news);
-        }
-    }
-}
-
-// News class
 public class News implements Cloneable, Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 232;
-	private Date date;
+    private Date date;
     private String description;
     private String title;
+    private NewsTopic topic;
 
+    // Конструктор по умолчанию
     public News() {}
 
-    public News(String description, String title) {
+    // Конструктор с параметрами
+    public News(String description, String title, NewsTopic topic) {
         this.description = description;
         this.title = title;
-        this.date = new Date(); 
+        this.topic = topic;
+        this.date = new Date(); // Устанавливаем текущую дату по умолчанию
     }
 
+    // Геттеры и сеттеры
     public Date getDate() {
         return this.date;
     }
@@ -74,65 +48,41 @@ public class News implements Cloneable, Serializable {
         this.title = title;
     }
 
+    public NewsTopic getTopic() {
+        return this.topic;
+    }
+
+    public void setTopic(NewsTopic topic) {
+        this.topic = topic;
+    }
+
+    // Метод клонирования
+    @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
+    // Переопределение метода toString
     @Override
     public String toString() {
-        return "Title: " + title + "\nDescription: " + description;
+        return "Title: " + title + "\nDescription: " + description + "\nTopic: " + topic + "\nDate: " + date;
     }
 
+    // Переопределение метода equals
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         News news = (News) o;
-
-        if (!Objects.equals(date, news.date)) return false;
-        if (!Objects.equals(description, news.description)) return false;
-        return Objects.equals(title, news.title);
+        return Objects.equals(date, news.date) &&
+               Objects.equals(description, news.description) &&
+               Objects.equals(title, news.title) &&
+               topic == news.topic;
     }
 
+    // Переопределение метода hashCode
     @Override
     public int hashCode() {
-        int result = date != null ? date.hashCode() : 0;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        return result;
-    }
-}
-
-// Example Observer implementation
-class Student implements Observer {
-    private final String name;
-
-    public Student(String name) {
-        this.name = name;
-    }
- 
-    @Override
-    public void update(News news) {
-        System.out.println("Student " + name + " received news update: \n" + news);
-    }
-}
-
-// Main class to demonstrate functionality
-class Main {
-    public static void main(String[] args) {
-        NewsManager newsManager = new NewsManager();
-
-        Student student1 = new Student("Alice");
-        Student student2 = new Student("Bob");
-
-        newsManager.addObserver(student1);
-        newsManager.addObserver(student2);
-
-        News news1 = new News("Midterm exams are scheduled for next week.", "Midterm Announcement");
-        News news2 = new News("University will be closed tomorrow due to weather conditions.", "Weather Update");
-
-        newsManager.notifyObservers(news1);
-        newsManager.notifyObservers(news2);
+        return Objects.hash(date, description, title, topic);
     }
 }
