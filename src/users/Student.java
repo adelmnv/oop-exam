@@ -414,7 +414,11 @@ public class Student extends User {
 
     private int getChoice(Scanner scanner) {
         System.out.print("Enter your choice: ");
-        return scanner.nextInt();
+        try {
+            return scanner.nextInt();
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
     private void registerForCourseMenu(Scanner scanner) {
