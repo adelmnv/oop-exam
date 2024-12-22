@@ -3,6 +3,9 @@ package users;
 import java.util.List;
 import java.util.Scanner;
 import enums.ManagerType;
+import news.Journal;
+import news.News;
+import research.ResearchProject;
 import studying.Course;
 
 public class FinanceManager extends Employee {

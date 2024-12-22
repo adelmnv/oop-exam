@@ -1,9 +1,12 @@
 package studying;
 
+import java.io.Serializable;
+
 import enums.LessonType;
 import users.Teacher;
 
-public class Lesson {
+public class Lesson implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String room;
 	public String dayOfWeek;
 	private String time;

@@ -1,9 +1,16 @@
 package users;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-//доделать
-public abstract class User implements Serializable /*, Observer*/ {
+import news.Journal;
+import news.News;
+import news.NewsManager;
+import observers.Observer;
+import research.ResearchProject;
+
+public abstract class User implements Serializable, Observer {
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String firstName;
@@ -11,6 +18,8 @@ public abstract class User implements Serializable /*, Observer*/ {
 	private String email;
 	private String password;
 	private boolean isLogged;
+	private List<Journal> subscribedJournals = new ArrayList<>();
+	private List<String> notifications = new ArrayList<>();
 
 	 public User(String id, String firstName, String lastName, String email, String password) {
 		 this.id = id;
@@ -19,6 +28,8 @@ public abstract class User implements Serializable /*, Observer*/ {
 	     this.email = email;
 	     this.password = password;
 	     this.isLogged = false; 
+	     
+	     NewsManager.getInstance().addObserver(this);
 	 }
 	 
 	 public String getId() {
@@ -74,11 +85,38 @@ public abstract class User implements Serializable /*, Observer*/ {
 		 System.out.println("Password changed successfully.");
 	 }
 
-	 //public List<String> viewNotifications() {}
-	 
-	 //subscribeToJournal(Journal journal){}
-	 
-	 //unsubsribeToJournal(Journal journal){}
+	 public void subscribeToJournal(Journal journal) {
+	        if (!subscribedJournals.contains(journal)) {
+	            subscribedJournals.add(journal);
+	            journal.addSubscriber(this);
+	            System.out.println("Subscribed to journal: " + journal.getName());
+	        }
+	    }
+
+	    public void unsubscribeFromJournal(Journal journal) {
+	        if (subscribedJournals.remove(journal)) {
+	            journal.removeSubscriber(this);
+	            System.out.println("Unsubscribed from journal: " + journal.getName());
+	        }
+	    }
+
+	    public List<String> viewNotifications() {
+	        return new ArrayList<>(notifications);
+	    }
+	    
+	    @Override
+	    public void update(Journal journal, ResearchProject researchProject) {
+	        String message = "New research project in " + journal.getName() + ": " + researchProject.getProjectName();
+	        notifications.add(message);
+	        System.out.println(message);
+	    }
+
+	    @Override
+	    public void update(News news) {
+	        String message = "News: " + news.getTitle();
+	        notifications.add(message);
+	        System.out.println(message);
+	    }
 	 
 	 public abstract void displayFunct();
 	 

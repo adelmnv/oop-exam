@@ -6,24 +6,21 @@ import java.util.Date;
 import java.util.Objects;
 
 public class News implements Cloneable, Serializable {
-
-    private Date date;
+	private static final long serialVersionUID = 1L;
+	private Date date;
     private String description;
     private String title;
     private NewsTopic topic;
 
-    // Конструктор по умолчанию
     public News() {}
 
-    // Конструктор с параметрами
     public News(String description, String title, NewsTopic topic) {
         this.description = description;
         this.title = title;
         this.topic = topic;
-        this.date = new Date(); // Устанавливаем текущую дату по умолчанию
+        this.date = new Date();
     }
 
-    // Геттеры и сеттеры
     public Date getDate() {
         return this.date;
     }
@@ -56,19 +53,16 @@ public class News implements Cloneable, Serializable {
         this.topic = topic;
     }
 
-    // Метод клонирования
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
-    // Переопределение метода toString
     @Override
     public String toString() {
         return "Title: " + title + "\nDescription: " + description + "\nTopic: " + topic + "\nDate: " + date;
     }
 
-    // Переопределение метода equals
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,7 +74,6 @@ public class News implements Cloneable, Serializable {
                topic == news.topic;
     }
 
-    // Переопределение метода hashCode
     @Override
     public int hashCode() {
         return Objects.hash(date, description, title, topic);
