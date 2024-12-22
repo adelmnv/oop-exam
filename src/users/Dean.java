@@ -125,7 +125,7 @@ public class Dean extends Employee{
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
-        scanner.close();
+        //scanner.close();
     }
 
     private void handleSendMessageToUser(Scanner scanner) {
@@ -215,6 +215,7 @@ public class Dean extends Employee{
             System.out.println("Received Messages:");
             for (Message message : messages) {
                 System.out.println(message.toString());
+                message.markAsOpened();
             }
         }
     }

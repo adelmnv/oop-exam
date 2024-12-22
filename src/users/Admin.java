@@ -2,6 +2,7 @@ package users;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import communication.Message;
 import enums.Faculty;
@@ -31,21 +32,43 @@ public class Admin extends Employee {
     public void createUserFromInput(Scanner scanner) {
         System.out.print("Enter user type (student, manager, teacher, admin, dean, finance manager): ");
         String userType = scanner.nextLine().toLowerCase();
+        if (!isValidUserType(userType)) {
+            System.out.println("Invalid user type.");
+            return;
+        }
+
         System.out.print("Enter first name: ");
         String firstName = scanner.nextLine();
         System.out.print("Enter last name: ");
         String lastName = scanner.nextLine();
+        
         System.out.print("Enter email: ");
         String email = scanner.nextLine();
+        if (!isValidEmail(email)) {
+            System.out.println("Invalid email format.");
+            return;
+        }
+
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
 
         User user = createUserBasedOnType(scanner, userType, firstName, lastName, email, password);
         if (user != null) {
             addUser(user);
+            System.out.println("New User added successfully");
         } else {
             System.out.println("Invalid user type.");
         }
+    }
+
+    private boolean isValidUserType(String userType) {
+        return userType.equals("student") || userType.equals("manager") || userType.equals("teacher") ||
+               userType.equals("admin") || userType.equals("dean") || userType.equals("finance manager");
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return Pattern.matches(emailRegex, email);
     }
 
     private User createUserBasedOnType(Scanner scanner, String userType, String firstName, String lastName, String email, String password) {
@@ -53,6 +76,10 @@ public class Admin extends Employee {
         switch (userType.toLowerCase()) {
             case "student":
                 System.out.print("Enter year of study: ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a valid year.");
+                    scanner.next();
+                }
                 int yearOfStudy = scanner.nextInt();
                 scanner.nextLine();
                 System.out.print("Enter faculty: ");
@@ -65,8 +92,18 @@ public class Admin extends Employee {
             case "manager":
                 System.out.print("Enter manager type (OR, FINANCE, DEPARTMENT): ");
                 String managerTypeStr = scanner.nextLine();
-                ManagerType managerType = ManagerType.valueOf(managerTypeStr.toUpperCase());
+                ManagerType managerType;
+                try {
+                    managerType = ManagerType.valueOf(managerTypeStr.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid manager type.");
+                    return null;
+                }
                 System.out.print("Enter salary: ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a valid salary.");
+                    scanner.next();
+                }
                 salary = scanner.nextInt();
                 scanner.nextLine();
                 return new Manager(firstName, lastName, email, password, salary, managerType);
@@ -75,28 +112,50 @@ public class Admin extends Employee {
                 System.out.print("Enter faculty: ");
                 String teacherFaculty = scanner.nextLine();
                 Faculty teacherFac = Faculty.valueOf(teacherFaculty.toUpperCase());
-                System.out.print("Enter teacher title (LECTOR, TUTOR, PROFFESOR, SENIOR_LECTOR): ");
+                System.out.print("Enter teacher title (LECTOR, TUTOR, PROFESSOR, SENIOR_LECTOR): ");
                 String teacherTitleStr = scanner.nextLine();
-                TeacherTitle teacherTitle = TeacherTitle.valueOf(teacherTitleStr.toUpperCase());
+                TeacherTitle teacherTitle;
+                try {
+                    teacherTitle = TeacherTitle.valueOf(teacherTitleStr.toUpperCase());
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid teacher title.");
+                    return null;
+                }
                 System.out.print("Enter salary: ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a valid salary.");
+                    scanner.next();
+                }
                 salary = scanner.nextInt();
                 scanner.nextLine();
                 return new Teacher(firstName, lastName, email, password, salary, teacherFac, teacherTitle);
 
             case "admin":
                 System.out.print("Enter salary: ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a valid salary.");
+                    scanner.next();
+                }
                 salary = scanner.nextInt();
                 scanner.nextLine();
                 return new Admin(firstName, lastName, email, password, salary);
 
             case "dean":
                 System.out.print("Enter salary: ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a valid salary.");
+                    scanner.next();
+                }
                 salary = scanner.nextInt();
                 scanner.nextLine();
                 return new Dean(firstName, lastName, email, password, salary);
 
             case "finance manager":
                 System.out.print("Enter salary: ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a valid salary.");
+                    scanner.next();
+                }
                 salary = scanner.nextInt();
                 scanner.nextLine();
                 return new FinanceManager(firstName, lastName, email, password, salary);
@@ -105,13 +164,13 @@ public class Admin extends Employee {
                 return null;
         }
     }
-
+    
     public void viewLogs() {
         System.out.println("admin view the log");
     }
     
     private void displayAdminMenu() {
-        System.out.println("Admin Functions:");
+        System.out.println("\nAdmin Functions:");
         System.out.println("0. Exit");
         System.out.println("1. Create User");
         System.out.println("2. Remove User");
@@ -194,6 +253,7 @@ public class Admin extends Employee {
             System.out.println("Received Messages:");
             for (Message message : messages) {
                 System.out.println(message.toString());
+                message.markAsOpened();
             }
         }
     }
@@ -244,7 +304,7 @@ public class Admin extends Employee {
                 }
             }
         } finally {
-        	scanner.close();
+        	//scanner.close();
         }
     }
     

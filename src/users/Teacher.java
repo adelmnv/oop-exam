@@ -134,7 +134,7 @@ public class Teacher extends Employee {
 		        }
 		    }
 	    }finally {
-	    	scanner.close();
+	    	//scanner.close();
 	    }
 	}
 	
@@ -293,6 +293,7 @@ public class Teacher extends Employee {
             System.out.println("Received Messages:");
             for (Message message : messages) {
                 System.out.println(message.toString());
+                message.markAsOpened();
             }
         }
     }

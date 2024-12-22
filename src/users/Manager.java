@@ -127,7 +127,7 @@ public class Manager extends Employee {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
-        scanner.close();
+        //scanner.close();
     }
     
     private void handleSendMessageToUser(Scanner scanner) {
@@ -158,6 +158,7 @@ public class Manager extends Employee {
             System.out.println("Received Messages:");
             for (Message message : messages) {
                 System.out.println(message.toString());
+                message.markAsOpened();
             }
         }
     }
@@ -340,7 +341,6 @@ public class Manager extends Employee {
                 scanner.nextLine();
                 NewsTopic topic = NewsTopic.values()[topicChoice - 1];
 
-                // Create and add the news
                 News news = new News(description, title, topic);
                 newsManager.addNews(news);
                 System.out.println("News added successfully!");

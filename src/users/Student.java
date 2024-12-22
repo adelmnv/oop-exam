@@ -363,7 +363,7 @@ public class Student extends User{
                 }
             }
         } finally {
-        	scanner.close();
+        	//scanner.close();
         }
     }
 

@@ -91,6 +91,7 @@ public class FinanceManager extends Employee {
             System.out.println("Received Messages:");
             for (Message message : messages) {
                 System.out.println(message.toString());
+                message.markAsOpened();
             }
         }
     }
@@ -126,7 +127,7 @@ public class FinanceManager extends Employee {
                 }
             }
         } finally {
-            scanner.close();
+            //scanner.close();
         }
    }
     
