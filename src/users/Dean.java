@@ -88,7 +88,6 @@ public class Dean extends Employee{
         int choice;
         do {
             displayFunct();
-            System.out.print("Enter your choice: ");
             choice = getChoice(scanner);
             scanner.nextLine();
             switch (choice) {

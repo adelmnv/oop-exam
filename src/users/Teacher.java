@@ -78,20 +78,24 @@ public class Teacher extends Employee {
         System.out.println("10. View Received Messages");
 	}
 	
+	private int getChoice(Scanner scanner) {
+        System.out.print("Enter your choice: ");
+        try {
+        	return scanner.nextInt();
+        }catch(Exception e) {
+        	return -1;
+        }
+        
+    }
+	
 	@Override
 	public void displayFunct() {
 	    Scanner scanner = new Scanner(System.in);
 	    try {
 	    	while (true) {
 		        displayTeacherMenu();
-		        System.out.print("Enter your choice: ");
-		        int choice;
-		        try {
-		            choice = Integer.parseInt(scanner.nextLine());
-		        } catch (NumberFormatException e) {
-		            System.out.println("Invalid input. Please enter a valid number.");
-		            continue;
-		        }
+		        int choice = getChoice(scanner);
+                scanner.nextLine();
 
 		        switch (choice) {
 		            case 0:
@@ -183,7 +187,7 @@ public class Teacher extends Employee {
 	private void handleFirstAttestationMark(Student student, Course course, Scanner scanner) {
 	    System.out.print("Enter first attestation mark: ");
 	    double mark = scanner.nextDouble();
-	    scanner.nextLine(); // Consume newline character
+	    scanner.nextLine();
 
 	    putFirstAttestationMark(student, mark, course);
 	    System.out.println("First attestation mark added successfully.");
@@ -192,7 +196,7 @@ public class Teacher extends Employee {
 	private void handleSecondAttestationMark(Student student, Course course, Scanner scanner) {
 	    System.out.print("Enter second attestation mark: ");
 	    double mark = scanner.nextDouble();
-	    scanner.nextLine(); // Consume newline character
+	    scanner.nextLine();
 
 	    try {
 	        putSecondAttestationMark(student, mark, course);
@@ -205,7 +209,7 @@ public class Teacher extends Employee {
 	private void handleFinalExamMark(Student student, Course course, Scanner scanner) {
 	    System.out.print("Enter final exam mark: ");
 	    double mark = scanner.nextDouble();
-	    scanner.nextLine(); // Consume newline character
+	    scanner.nextLine();
 
 	    try {
 	        putFinalExamMark(student, mark, course);

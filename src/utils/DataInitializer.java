@@ -71,6 +71,17 @@ public class DataInitializer {
         Course course3 = new Course("Linear Algebra", "MA201", Faculty.BS, 3, 2, 40);
         Course course4 = new Course("Operating Systems", "CS301", Faculty.SITE, 4, 3, 30);
         Course course5 = new Course("Data Structures", "CS202", Faculty.SITE, 4, 2, 40);
+        
+        teacher1.addCourse("CS101");
+        teacher3.addCourse("CS101");
+        teacher2.addCourse("CS102");
+        teacher4.addCourse("CS102");
+        teacher1.addCourse("MA201");
+        teacher3.addCourse("MA201");
+        teacher2.addCourse("CS301");
+        teacher4.addCourse("CS301");
+        teacher5.addCourse("CS202");
+        teacher3.addCourse("CS202");
 
         course1.getLessons().add(new Lesson("Room 101", "Monday", "10:00", LessonType.LECTURE, teacher1));
         course1.getLessons().add(new Lesson("Room 101", "Wednesday", "10:00", LessonType.LECTURE, teacher1));

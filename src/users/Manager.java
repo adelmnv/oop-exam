@@ -71,7 +71,6 @@ public class Manager extends Employee {
     	Scanner scanner = new Scanner(System.in);
         int choice;
         do {
-            System.out.print("Enter your choice: ");
             choice = getChoice(scanner);
             scanner.nextLine();
 
@@ -225,6 +224,9 @@ public class Manager extends Employee {
         }
 
         course.setLessons(lessons);
+        if (!selectedTeacher.getCourseCodes().contains(course.getCourseCode())) {
+        	assignCourseToTeacher(selectedTeacher, course);
+        }
         System.out.println("Lessons successfully added to the course: " + course.getCourseName());
         scanner.close();
     }
