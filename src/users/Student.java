@@ -231,7 +231,10 @@ public class Student extends User {
     }
 
     public void displayGradesForAllCourses() {
+
+        System.out.println("Point 1");
         Map<String, String> grades = getAllGrades();
+        System.out.println("Point 2");
         if (grades.isEmpty()) {
             System.out.println("No grades available to display.");
         } else {
@@ -379,7 +382,7 @@ public class Student extends User {
                 }
             }
         } finally {
-        	//scanner.close();
+            // scanner.close();
         }
     }
 
