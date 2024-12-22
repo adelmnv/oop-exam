@@ -146,6 +146,15 @@ public abstract class User implements Serializable, Observer {
 	}
 
 	public void subscribeToJournalMenu(Scanner scanner) {
+		if (subscribedJournals.isEmpty()) {
+			System.out.println("No available journals to subscribe.");
+		} else {
+			System.out.println("Available Journals:");
+			for (Journal journal : subscribedJournals) {
+				System.out.println(journal.getName());
+			}
+		}
+
 		System.out.print("Enter journal name to subscribe: ");
 		String journalName = scanner.nextLine();
 		Journal journal = JournalRepository.getInstance().findJournalByName(journalName).orElse(null);
