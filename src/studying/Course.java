@@ -129,6 +129,11 @@ public class Course implements Serializable{
 	    return details.toString();
 	}
 	
+	@Override
+	public String toString() {
+		return getCourseDetails();
+	}
+	
 	public void registerStudent(Student student) {
 	    if (!gradebook.containsKey(student)) {
 	        gradebook.put(student, new GradeBook());
