@@ -89,7 +89,7 @@ public class Dean extends Employee{
         do {
             displayFunct();
             System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
+            choice = getChoice(scanner);
             scanner.nextLine();
             switch (choice) {
                 case 1:
@@ -126,6 +126,16 @@ public class Dean extends Employee{
             }
         } while (choice != 0);
         //scanner.close();
+    }
+    
+    private int getChoice(Scanner scanner) {
+        System.out.print("Enter your choice: ");
+        try {
+        	return scanner.nextInt();
+        }catch(Exception e) {
+        	return -1;
+        }
+        
     }
 
     private void handleSendMessageToUser(Scanner scanner) {

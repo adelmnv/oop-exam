@@ -37,16 +37,21 @@ public class FinanceManager extends Employee {
     }
     
     public void generateScholarshipReport() {
-    	List<Student> students = UserRepository.getInstance().getUsersForType(Student.class);
+        List<Student> students = UserRepository.getInstance().getUsersForType(Student.class);
         for (Student student : students) {
             boolean receivesScholarship = true;
-            for (double totalMark : student.getAllTotalMarks()) {
-                if (totalMark < 70 || !student.canHaveScholarship()) {
-                	student.setCanHaveScholarship(false);
-                    receivesScholarship = false;
-                    break;
+            if(student.canHaveScholarship()) {
+            	for (double totalMark : student.getAllTotalMarks()) {
+                    if (totalMark < 70) {
+                        student.setCanHaveScholarship(false);
+                        receivesScholarship = false;
+                        break;
+                    }
                 }
+            }else {
+            	receivesScholarship = false;
             }
+            
             if (receivesScholarship) {
                 System.out.println(student.getFullName() + " qualifies for a scholarship.");
             } else {
@@ -102,7 +107,7 @@ public class FinanceManager extends Employee {
         try {
             while (true) {
                 displayFinanceManagerMenu();
-                int choice = scanner.nextInt();
+                int choice = getChoice(scanner);
                 scanner.nextLine();
                 switch (choice) {
                     case 1:
@@ -130,6 +135,16 @@ public class FinanceManager extends Employee {
             //scanner.close();
         }
    }
+    
+    private int getChoice(Scanner scanner) {
+        System.out.print("Enter your choice: ");
+        try {
+        	return scanner.nextInt();
+        }catch(Exception e) {
+        	return -1;
+        }
+        
+    }
     
     @Override
     public String toString() {
