@@ -37,4 +37,19 @@ public class Message implements Serializable{
 	public boolean getIsOpened() {
 		return isOpened;
 	}
+    
+    @Override
+    public String toString() {
+    	return String.format(
+                "Message Details:\n- Sender: %s %s (Email: %s)\n- Recipient: %s %s (Email: %s)\n- Content: %s\n- Status: %s",
+                sender.getFirstName(),
+                sender.getLastName(),
+                sender.getEmail(),
+                recipient.getFirstName(),
+                recipient.getLastName(),
+                recipient.getEmail(),
+                content,
+                isOpened ? "Opened" : "Unread"
+            );
+    }
 }

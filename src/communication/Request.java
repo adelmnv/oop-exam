@@ -32,6 +32,17 @@ public class Request implements Serializable{
 		this.isSigned = isSigned;
 	}
 	
-	
+    
+    @Override
+    public String toString() {
+    	return String.format(
+                "Request Details:\n- Sender: %s %s\n- Email: %s\n- Content: %s\n- Status: %s",
+                sender.getFirstName(), 
+                sender.getLastName(), 
+                sender.getEmail(), 
+                content, 
+                isSigned ? "Signed" : "Unsigned"
+            );
+    }
 
 }
