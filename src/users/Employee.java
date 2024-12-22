@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import communication.Message;
-import communication.MessageRepository;
 import communication.Request;
-import communication.RequestRepository;
+import repositories.MessageRepository;
+import repositories.RequestRepository;
 import research.EmployeeResearcher;
 import research.Researcher;
 
@@ -31,12 +31,12 @@ public abstract class Employee extends User{
 	}
 	
 	public String getFullName() {
-		return super.getFirstName() + super.getLastName();
+		return super.getFirstName() + " " + super.getLastName();
 	}
 	
 	public void sendMessage(Employee recipient, String content) {
 		Message message = new Message(this, content, recipient);
-        int messageId = MessageRepository.addMessage(message);
+        int messageId = MessageRepository.getInstance().addMessage(message);
         this.sentMessageIds.add(messageId);
         recipient.getReceivedMessageIds().add(messageId);
     }
@@ -52,7 +52,7 @@ public abstract class Employee extends User{
     public List<Message> getReceivedMessages() {
         List<Message> messages = new ArrayList<>();
         for (int id : receivedMessageIds) {
-            messages.add(MessageRepository.getMessageById(id));
+            messages.add(MessageRepository.getInstance().getMessageById(id));
         }
         return messages;
     }
@@ -60,21 +60,21 @@ public abstract class Employee extends User{
     public List<Message> getSentMessages() {
         List<Message> messages = new ArrayList<>();
         for (int id : sentMessageIds) {
-            messages.add(MessageRepository.getMessageById(id));
+            messages.add(MessageRepository.getInstance().getMessageById(id));
         }
         return messages;
     }
     
     public void  createRequest(String content) {
         Request request = new Request(this, content);
-        int requestId = RequestRepository.addRequest(request);
+        int requestId = RequestRepository.getInstance().addRequest(request);
         this.sentRequestIds.add(requestId);
     }
     
     public List<Request> getSentRequests() {
         List<Request> requests = new ArrayList<>();
         for (int id : sentRequestIds) {
-            requests.add(RequestRepository.getRequestById(id));
+            requests.add(RequestRepository.getInstance().getRequestById(id));
         }
         return requests;
     }

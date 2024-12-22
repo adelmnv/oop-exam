@@ -1,9 +1,11 @@
 package users;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class StudentOrganization {
-    private String name;
+public class StudentOrganization implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private String name;
     private List<Student> members;
     private Map<Student, String> studentRoles;
     private List<String> events;
@@ -15,6 +17,10 @@ public class StudentOrganization {
         this.studentRoles = new HashMap<>();
         this.events = new ArrayList<>();
         this.studentEventParticipation = new HashMap<>();
+    }
+    
+    public String getName() {
+    	return name;
     }
 
     public void addMember(Student student, String role) {
@@ -140,4 +146,42 @@ public class StudentOrganization {
             }
         }
     }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append(String.format("+----------------------------------------+\n"));
+        sb.append(String.format("| %-38s |\n", "Organization: " + name));
+        sb.append(String.format("+----------------------------------------+\n"));
+
+        sb.append(String.format("| %-16s | %-21s |\n", "Member", "Role"));
+        sb.append(String.format("+------------------+---------------------+\n"));
+        
+        for (Student student : members) {
+            sb.append(String.format("| %-16s | %-21s |\n", student.getFullName(), studentRoles.get(student)));
+        }
+        
+        sb.append(String.format("+------------------+---------------------+\n"));
+        
+        sb.append("\nEvents and Participation:\n");
+        if (events.isEmpty()) {
+            sb.append("No events organized yet.\n");
+        } else {
+            for (String event : events) {
+                sb.append(String.format("\nEvent: %s\n", event));
+                List<Student> participants = getParticipants(event);
+                if (participants.isEmpty()) {
+                    sb.append("No participants yet.\n");
+                } else {
+                    for (Student student : participants) {
+                        sb.append("- " + student.getFullName() + " participated in the event.\n");
+                    }
+                }
+            }
+        }
+        
+        return sb.toString();
+    }
+
 }

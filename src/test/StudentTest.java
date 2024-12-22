@@ -13,8 +13,8 @@ import java.util.Date;
 public class StudentTest {
     public static void main(String[] args) {
         // Создание студентов
-        Student student1 = new Student("John", "Doe", "john.doe@example.com", "studentpassword","234456",1,Faculty.KMA,true);
-        Student student2 = new Student("Arman", "Kairat", "arman@example.com", "studentpassword","234456",1,Faculty.KMA,true);
+        Student student1 = new Student("John", "Doe", "john.doe@example.com", "studentpassword",1,Faculty.KMA,true);
+        Student student2 = new Student("Arman", "Kairat", "arman@example.com", "studentpassword",1,Faculty.KMA,true);
 
         // Создание преподавателей
         Teacher teacher1 = new Teacher("Mr.", "Smith", "smith@example.com", "password123",50000,Faculty.BS,TeacherTitle.LECTOR);

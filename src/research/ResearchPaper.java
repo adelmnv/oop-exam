@@ -1,10 +1,13 @@
 package research;
 
+import java.io.Serializable;
+
 import enums.Format;
 import utils.IdGenerator;
 
-public class ResearchPaper{
-    private String paperId;
+public class ResearchPaper implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private String paperId;
     private String title;
     private Researcher author;
     private int publicationYear;

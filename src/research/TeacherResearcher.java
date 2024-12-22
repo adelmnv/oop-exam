@@ -7,6 +7,7 @@ import java.util.List;
 import users.Teacher;
 
 public class TeacherResearcher extends ResearcherDecorator{
+	private static final long serialVersionUID = 1L;
 	private Teacher teacher;
 	private List<ResearchPaper> publications = new ArrayList<>();
 	private List<ResearchProject> projects = new ArrayList<>();

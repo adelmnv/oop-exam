@@ -1,6 +1,6 @@
 package test;
 import communication.Request;
-import communication.RequestRepository;
+import repositories.RequestRepository;
 import users.Employee;
 import utils.IdGenerator;
 
@@ -31,14 +31,14 @@ public class RequestTest {
         
         // Извлечение и вывод всех неподписанных запросов
         System.out.println("\nFetching and displaying all unsigned requests:");
-        for (Request request : RequestRepository.getUnsignedRequests()) {
+        for (Request request : RequestRepository.getInstance().getUnsignedRequests()) {
             System.out.println("Unsigned request content: " + request.getContent());
             System.out.println("Request sent by: " + request.getSender().getFullName());
         }
         
         // Извлечение и вывод всех подписанных запросов
         System.out.println("\nFetching and displaying all signed requests:");
-        for (Request request : RequestRepository.getSignedRequests()) {
+        for (Request request : RequestRepository.getInstance().getSignedRequests()) {
             System.out.println("Signed request content: " + request.getContent());
             System.out.println("Request sent by: " + request.getSender().getFullName());
         }
@@ -50,7 +50,7 @@ public class RequestTest {
         
         // Проверка подписанных запросов после изменения
         System.out.println("\nFetching and displaying all signed requests after signing one:");
-        for (Request request : RequestRepository.getSignedRequests()) {
+        for (Request request : RequestRepository.getInstance().getSignedRequests()) {
             System.out.println("Signed request content: " + request.getContent());
             System.out.println("Request sent by: " + request.getSender().getFullName());
         }

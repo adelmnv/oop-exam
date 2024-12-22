@@ -1,12 +1,14 @@
 package research;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import utils.IdGenerator;
 
-public class ResearchProject {
-    private String projectId;
+public class ResearchProject implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private String projectId;
     private String projectName;
     private List<ResearchPaper> papers;
     private List<Researcher> participants = new ArrayList<>();

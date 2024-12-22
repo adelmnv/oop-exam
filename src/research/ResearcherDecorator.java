@@ -1,10 +1,12 @@
 package research;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
-public abstract class ResearcherDecorator implements Researcher {
-    protected Researcher wrappedResearcher;
+public abstract class ResearcherDecorator implements Researcher, Serializable{
+	private static final long serialVersionUID = 1L;
+	protected Researcher wrappedResearcher;
 
     public void setResearcher(Researcher researcher) {
         this.wrappedResearcher = researcher;

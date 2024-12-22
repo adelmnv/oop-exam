@@ -40,4 +40,16 @@ public class Complaint implements Serializable{
 	public void setAnswered(boolean isAnswered) {
 		this.isAnswered = isAnswered;
 	}
+	
+	@Override
+	public String toString() {
+	    String answerStatus = isAnswered ? "Answered" : "Unanswered";
+	    return String.format("Complaint [Sender: %s, Student: %s, Urgency Level: %s, Status: %s]",
+	            sender.getFirstName() + " " + sender.getLastName(),
+	            student.getFirstName() + " " + student.getLastName(),
+	            urgencyLevel,
+	            answerStatus);
+	}
+
+	
 }

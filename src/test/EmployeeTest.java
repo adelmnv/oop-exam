@@ -5,9 +5,9 @@ import research.Researcher;
 import users.Employee;
 import users.Student;
 import communication.Message;
-import communication.MessageRepository;
 import communication.Request;
-import communication.RequestRepository;
+import repositories.MessageRepository;
+import repositories.RequestRepository;
 
 public class EmployeeTest {
     public static void main(String[] args) {
@@ -27,7 +27,7 @@ public class EmployeeTest {
         };
 
         // Create a Student object
-        Student student1 = new Student("Mark", "Twain", "mark.twain@example.com", "password789", "S001", 3, null, true);
+        Student student1 = new Student("Mark", "Twain", "mark.twain@example.com", "password789", 3, null, true);
 
         // Test sending a message from employee1 to employee2
         employee1.sendMessage(employee2, "Hello Jane, let's discuss the new project.");
