@@ -72,7 +72,7 @@ public class Manager extends Employee {
         int choice;
         do {
             System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
+            choice = getChoice(scanner);
             scanner.nextLine();
 
             switch (choice) {
@@ -128,6 +128,16 @@ public class Manager extends Employee {
             }
         } while (choice != 0);
         //scanner.close();
+    }
+    
+    private int getChoice(Scanner scanner) {
+        System.out.print("Enter your choice: ");
+        try {
+        	return scanner.nextInt();
+        }catch(Exception e) {
+        	return -1;
+        }
+        
     }
     
     private void handleSendMessageToUser(Scanner scanner) {

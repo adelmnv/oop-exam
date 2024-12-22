@@ -41,8 +41,6 @@ public class MainProgram {
                 authenticatedUser = null;
             }
         }
-		
-		
 
 	}
 

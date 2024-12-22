@@ -379,11 +379,7 @@ public class Student extends User {
                 }
             }
         } finally {
-<<<<<<< HEAD
         	//scanner.close();
-=======
-            scanner.close();
->>>>>>> 6fb920d44b079671f8b2c848c5065a49d5a42c13
         }
     }
 
