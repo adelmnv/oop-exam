@@ -74,8 +74,18 @@ public class Student extends User {
         return super.getFirstName() + " " + super.getLastName();
     }
 
-    public List<Course> viewCourses() {
-        return CourseRepository.getInstance().getAllCourses();
+    public void viewCourses() {
+        List<Course> courses = CourseRepository.getInstance().getAllCourses();
+
+        if (courses.isEmpty()) {
+            System.out.println("No courses available.");
+            return;
+        }
+
+        System.out.println("Courses:\n");
+        for (Course course : courses) {
+            System.out.println(course.getCourseDetails());
+        }
     }
 
     public String viewCourseDetails(Course course) {
