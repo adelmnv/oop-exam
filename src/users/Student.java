@@ -29,63 +29,74 @@ import research.ComparatorByCitation;
 import research.ComparatorByDate;
 import research.ComparatorByPages;
 
-public class Student extends User{
-	private static final long serialVersionUID = 1L;
-	private int yearOfStudy;
-	private Faculty faculty;
-	private boolean canHaveScholarship;
-	private Researcher supervisor;
-	private Map<Course, List<Lesson>> registeredCourses = new HashMap<>();
-	
-	public Student(String firstName, String lastName, String email, String password, int yearOfStudy, Faculty faculty, boolean canHaveScholarship) {
-		super(IdGenerator.generateUniqueId("B"), firstName, lastName, email, password);
-		this.yearOfStudy = yearOfStudy;
-		this.faculty = faculty;
-		this.canHaveScholarship = canHaveScholarship;
-		this.supervisor = null;
-	}
-	
-	public int getYearOfStudy() {
-		return yearOfStudy;
-	}
-	
-	public void setYearOfStudy(int yearOfStudy) {
-		this.yearOfStudy = yearOfStudy;
-	}
-	
-	public Faculty getFaculty() {
-		return faculty;
-	}
-	
-	public void setFaculty(Faculty faculty) {
-		this.faculty = faculty;
-	}
-	
-	public boolean canHaveScholarship() {
-		return canHaveScholarship;
-	}
-	
-	public void setCanHaveScholarship(boolean canHaveScholarship) {
-		this.canHaveScholarship = canHaveScholarship;
-	}
-	
-	public String getFullName() {
-		return super.getFirstName() + " " + super.getLastName();
-	}
-	
-	public List<Course> viewCourses(){
-		return CourseRepository.getInstance().getAllCourses();
-	}
-	
-	public String viewCourseDetails(Course course) {
-		return course.getCourseDetails();
-	}
-	
-	public String viewCourseDetails(String courseCode) {
-		return CourseRepository.getInstance().getCourseByCode(courseCode).getCourseDetails();
-	}
-	
-	public List<Lesson> getRegisteredLessons(String courseCode) {
+public class Student extends User {
+    private static final long serialVersionUID = 1L;
+    private int yearOfStudy;
+    private Faculty faculty;
+    private boolean canHaveScholarship;
+    private Researcher supervisor;
+    private Map<Course, List<Lesson>> registeredCourses = new HashMap<>();
+
+    public Student(String firstName, String lastName, String email, String password, int yearOfStudy, Faculty faculty,
+            boolean canHaveScholarship) {
+        super(IdGenerator.generateUniqueId("B"), firstName, lastName, email, password);
+        this.yearOfStudy = yearOfStudy;
+        this.faculty = faculty;
+        this.canHaveScholarship = canHaveScholarship;
+        this.supervisor = null;
+    }
+
+    public int getYearOfStudy() {
+        return yearOfStudy;
+    }
+
+    public void setYearOfStudy(int yearOfStudy) {
+        this.yearOfStudy = yearOfStudy;
+    }
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
+    public boolean canHaveScholarship() {
+        return canHaveScholarship;
+    }
+
+    public void setCanHaveScholarship(boolean canHaveScholarship) {
+        this.canHaveScholarship = canHaveScholarship;
+    }
+
+    public String getFullName() {
+        return super.getFirstName() + " " + super.getLastName();
+    }
+
+    public void viewCourses() {
+        List<Course> courses = CourseRepository.getInstance().getAllCourses();
+
+        if (courses.isEmpty()) {
+            System.out.println("No courses available.");
+            return;
+        }
+
+        System.out.println("Courses:\n");
+        for (Course course : courses) {
+            System.out.println(course.getCourseDetails());
+        }
+    }
+
+    public String viewCourseDetails(Course course) {
+        return course.getCourseDetails();
+    }
+
+    public String viewCourseDetails(String courseCode) {
+        return CourseRepository.getInstance().getCourseByCode(courseCode).getCourseDetails();
+    }
+
+    public List<Lesson> getRegisteredLessons(String courseCode) {
         Course course = CourseRepository.getInstance().getCourseByCode(courseCode);
         return course != null ? registeredCourses.getOrDefault(course, new ArrayList<>()) : new ArrayList<>();
     }
@@ -93,7 +104,7 @@ public class Student extends User{
     public Map<Course, List<Lesson>> getRegisteredCourses() {
         return registeredCourses;
     }
-	
+
     private boolean isStudentLimitAvailable(Course course) {
         if (course.getLimit() <= course.getRegisteredStudentCount()) {
             System.out.println("Cannot register for course: Student limit reached.");
@@ -111,11 +122,11 @@ public class Student extends User{
     }
 
     private void addCourseRegistration(Course course, List<Lesson> selectedLessons) {
-    	registeredCourses.put(course, new ArrayList<>(selectedLessons));
+        registeredCourses.put(course, new ArrayList<>(selectedLessons));
         course.registerStudent(this);
         System.out.println("Successfully registered for course: " + course.getCourseName());
     }
-    
+
     public boolean registerForCourse(String courseCode, List<Lesson> selectedLessons) {
         Course course = CourseRepository.getInstance().getCourseByCode(courseCode);
         if (course == null) {
@@ -130,24 +141,30 @@ public class Student extends User{
         addCourseRegistration(course, selectedLessons);
         return true;
     }
-    
+
     public void viewSchedule() {
-    	Map<Lesson, Course> lessonToCourseMap = new HashMap<>();
-    	for (Map.Entry<Course, List<Lesson>> entry : registeredCourses.entrySet()) {
-    	    Course course = entry.getKey();
-    	    List<Lesson> lessons = entry.getValue();
-    	    for (Lesson lesson : lessons) {
-    	        lessonToCourseMap.put(lesson, course);
-    	    }
-    	}
-    	List<Lesson> schedule = new ArrayList<>(lessonToCourseMap.keySet());
-    	schedule.sort(new LessonComparator());
-    	for (Lesson lesson : schedule) {
-    	    Course course = lessonToCourseMap.get(lesson);
-    	    System.out.println("Course: " + course.getCourseName() + " " + lesson.getLessonDetails());
-    	}
+        Map<Lesson, Course> lessonToCourseMap = new HashMap<>();
+        for (Map.Entry<Course, List<Lesson>> entry : registeredCourses.entrySet()) {
+            Course course = entry.getKey();
+            List<Lesson> lessons = entry.getValue();
+            for (Lesson lesson : lessons) {
+                lessonToCourseMap.put(lesson, course);
+            }
+        }
+        List<Lesson> schedule = new ArrayList<>(lessonToCourseMap.keySet());
+        schedule.sort(new LessonComparator());
+
+        if (schedule.isEmpty()) {
+            System.out.println("No lessons registered.");
+            return;
+        }
+
+        for (Lesson lesson : schedule) {
+            Course course = lessonToCourseMap.get(lesson);
+            System.out.println("Course: " + course.getCourseName() + " " + lesson.getLessonDetails());
+        }
     }
-    
+
     public boolean setSupervisor(Researcher supervisor) {
         if (getYearOfStudy() != 4) {
             System.out.println("Only 4th-year students can have a supervisor.");
@@ -159,22 +176,22 @@ public class Student extends User{
         }
         this.supervisor = supervisor;
         System.out.println(supervisor.getResearcherName() + " is now the supervisor of " + getFullName());
-        return true;  
+        return true;
     }
-    
+
     public Researcher getSupervisor() {
-    	 return supervisor;
+        return supervisor;
     }
-    
+
     public void becomeResearcher() {
         ResearcherRepository.getInstance().addResearcher(this);
         System.out.println(getFullName() + " is now a researcher.");
     }
-    
+
     public void joinStudentOrganization(StudentOrganization so, String role) {
-    	so.addMember(this, role);
+        so.addMember(this, role);
     }
-    
+
     public GradeBook getGradeForCourse(Course course) {
         return course.getGradebook().get(this);
     }
@@ -192,16 +209,16 @@ public class Student extends User{
         }
         return grades;
     }
-    
-    List<Double> getAllTotalMarks(){
-    	List<Double> totalMarks = new ArrayList<>();
-    	for (Course course : registeredCourses.keySet()) {
-    	    GradeBook gradeBookEntry = getGradeForCourse(course);
-    	    if (gradeBookEntry != null) {
-    	        totalMarks.add(gradeBookEntry.getTotalMark());
-    	    }
-    	}
-    	return totalMarks;
+
+    List<Double> getAllTotalMarks() {
+        List<Double> totalMarks = new ArrayList<>();
+        for (Course course : registeredCourses.keySet()) {
+            GradeBook gradeBookEntry = getGradeForCourse(course);
+            if (gradeBookEntry != null) {
+                totalMarks.add(gradeBookEntry.getTotalMark());
+            }
+        }
+        return totalMarks;
     }
 
     public String getGradeForSpecificCourse(String courseCode) {
@@ -236,33 +253,32 @@ public class Student extends User{
             System.out.println("Course Code: " + courseCode + " | Grade: " + grade);
         }
     }
-    
+
     public void viewTranscript() {
-    	Transcript transcript = new Transcript(this);
-    	System.out.println(transcript.generateTranscript());
-    	transcript.printStatistics();
+        Transcript transcript = new Transcript(this);
+        System.out.println(transcript.generateTranscript());
+        transcript.printStatistics();
     }
-    
+
     @Override
     public String toString() {
         return String.format("+---------------------------------------------+\n" +
-                             "| %-15s | %-28s |\n" +
-                             "+---------------------------------------------+\n" +
-                             "| %-15s | %-28s |\n" +
-                             "| %-15s | %-28s |\n" +
-                             "| %-15s | %-28s |\n" +
-                             "| %-15s | %-28s |\n" +
-                             "| %-15s | %-28s |\n" +
-                             "+---------------------------------------------+\n", 
-                             "Student ID", getId(),
-                             "Full Name", getFullName(),
-                             "Year of Study", yearOfStudy,
-                             "Faculty", faculty,
-                             "Scholarship", canHaveScholarship ? "Yes" : "No",
-                             "Supervisor", (supervisor != null ? supervisor.getResearcherName() : "No supervisor"));
+                "| %-15s | %-28s |\n" +
+                "+---------------------------------------------+\n" +
+                "| %-15s | %-28s |\n" +
+                "| %-15s | %-28s |\n" +
+                "| %-15s | %-28s |\n" +
+                "| %-15s | %-28s |\n" +
+                "| %-15s | %-28s |\n" +
+                "+---------------------------------------------+\n",
+                "Student ID", getId(),
+                "Full Name", getFullName(),
+                "Year of Study", yearOfStudy,
+                "Faculty", faculty,
+                "Scholarship", canHaveScholarship ? "Yes" : "No",
+                "Supervisor", (supervisor != null ? supervisor.getResearcherName() : "No supervisor"));
     }
 
-    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -273,10 +289,10 @@ public class Student extends User{
         }
         Student student = (Student) obj;
         return Objects.equals(getId(), student.getId()) &&
-        	   Objects.equals(getFullName(), student.getFullName()) &&
-               yearOfStudy == student.yearOfStudy &&
-               faculty == student.faculty &&
-               canHaveScholarship == student.canHaveScholarship;
+                Objects.equals(getFullName(), student.getFullName()) &&
+                yearOfStudy == student.yearOfStudy &&
+                faculty == student.faculty &&
+                canHaveScholarship == student.canHaveScholarship;
     }
 
     @Override
@@ -288,16 +304,16 @@ public class Student extends User{
     public void displayFunct() {
         Scanner scanner = new Scanner(System.in);
         try {
-        	while (true) {
+            while (true) {
                 displayMainMenu();
                 int choice = getChoice(scanner);
                 scanner.nextLine();
                 switch (choice) {
-	                case 0:
-	                    System.out.println("Exiting...");
-	                    StudentRepository.getInstance().updateStudent(this);
-	                    super.logout();
-	                    return;
+                    case 0:
+                        System.out.println("Exiting...");
+                        StudentRepository.getInstance().updateStudent(this);
+                        super.logout();
+                        return;
                     case 1:
                         viewSchedule();
                         break;
@@ -363,7 +379,11 @@ public class Student extends User{
                 }
             }
         } finally {
+<<<<<<< HEAD
         	//scanner.close();
+=======
+            scanner.close();
+>>>>>>> 6fb920d44b079671f8b2c848c5065a49d5a42c13
         }
     }
 
@@ -437,7 +457,7 @@ public class Student extends User{
             }
         }
     }
-    
+
     private List<Lesson> getSelectedLessons(List<Lesson> lessons, String lessonNumbersInput) {
         List<Lesson> selectedLessons = new ArrayList<>();
         String[] lessonNumbers = lessonNumbersInput.split(",");
@@ -457,7 +477,6 @@ public class Student extends User{
 
         return selectedLessons;
     }
-
 
     private void viewCourseDetailsMenu(Scanner scanner) {
         System.out.print("Enter course code: ");
@@ -482,7 +501,8 @@ public class Student extends User{
                 System.out.println("Available supervisors (h-index >= 3):");
                 for (int i = 0; i < validSupervisors.size(); i++) {
                     Researcher supervisor = validSupervisors.get(i);
-                    System.out.println(i + 1 + ". " + supervisor.getResearcherName() + " (h-index: " + supervisor.calculateHIndex() + ")");
+                    System.out.println(i + 1 + ". " + supervisor.getResearcherName() + " (h-index: "
+                            + supervisor.calculateHIndex() + ")");
                 }
                 System.out.print("Enter the number of the supervisor you want to select: ");
                 int researcherNum = scanner.nextInt();
@@ -528,7 +548,7 @@ public class Student extends User{
     }
 
     private void sortPublicationsMenu(Scanner scanner) {
-    	StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
         System.out.println("Available Sorting Options for Publications:");
         System.out.println("1. Sort by Citations");
         System.out.println("2. Sort by Publication Date");
@@ -561,14 +581,14 @@ public class Student extends User{
     }
 
     private void proposeResearchProjectMenu(Scanner scanner) {
-    	StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
         System.out.print("Enter project name: ");
         String projectName = scanner.nextLine();
         researcher.proposeProject(projectName);
     }
 
     private void joinResearchProjectMenu(Scanner scanner) {
-    	StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
         System.out.print("Enter project name to join: ");
         String joinProjectName = scanner.nextLine();
         ResearchProject projectToJoin = ResearchProjectRepository.getInstance().getProjectByName(joinProjectName);
@@ -580,7 +600,7 @@ public class Student extends User{
     }
 
     private void leadResearchProjectMenu(Scanner scanner) {
-    	StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
         System.out.print("Enter project name to lead: ");
         String leadProjectName = scanner.nextLine();
         ResearchProject projectToLead = ResearchProjectRepository.getInstance().getProjectByName(leadProjectName);
@@ -592,7 +612,7 @@ public class Student extends User{
     }
 
     private void viewResearchProjects() {
-    	StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
         System.out.print("Research Projects where student participating: ");
         ResearchProjectRepository.getInstance().getProjectsByResearcher(researcher);
     }
