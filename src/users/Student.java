@@ -76,6 +76,7 @@ public class Student extends User{
 	    System.out.println("8. Become a Researcher");
 	    System.out.println("9. Join Student Organization");
 	    System.out.println("10. View Transcript");
+	    System.out.println("11. See Notifications");
 	}
 	
 	public List<Course> viewCourses(){
