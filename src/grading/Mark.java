@@ -12,7 +12,7 @@ public class Mark {
     }
 
     public double getFirstAttestation() {
-        return firstAttestation;
+        return firstAttestation == null ? 0 : firstAttestation;
     }
 
     public void setFirstAttestation(double firstAttestation) {
@@ -20,7 +20,7 @@ public class Mark {
     }
 
     public double getSecondAttestation() {
-        return secondAttestation;
+        return secondAttestation == null ? 0 : secondAttestation;
     }
 
     public void setSecondAttestation(double secondAttestation) {
@@ -28,7 +28,7 @@ public class Mark {
     }
 
     public double getFinalExam() {
-        return finalExam;
+        return finalExam == null ? 0 : finalExam;
     }
 
     public void setFinalExam(double finalExam) {
