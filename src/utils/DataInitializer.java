@@ -10,6 +10,7 @@ import news.News;
 import news.NewsManager;
 import repositories.CourseRepository;
 import repositories.JournalRepository;
+import repositories.ResearchProjectRepository;
 import repositories.ResearcherRepository;
 import repositories.UserRepository;
 import research.ResearchPaper;
@@ -133,6 +134,10 @@ public class DataInitializer {
         project2.addPaper(new ResearchPaper("Energy Efficient Software", researcher2,2024,9,4));
 
         project3.addPaper(new ResearchPaper("Quantum Search Techniques", researcher3,2024,7,2));
+        
+        ResearchProjectRepository.getInstance().addProject(project1);
+        ResearchProjectRepository.getInstance().addProject(project2);
+        ResearchProjectRepository.getInstance().addProject(project3);
 
         Journal journal1 = new Journal("AI and Future Technologies");
         journal1.getPublishedProjects().add(project1);
