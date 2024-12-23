@@ -26,7 +26,8 @@ public class Manager extends Employee {
     private ManagerType managerType;
     private List<Request> signedRequests = new ArrayList<>();
 
-    public Manager(String firstName, String lastName, String email, String password, int salary, ManagerType managerType) {
+    public Manager(String firstName, String lastName, String email, String password, int salary,
+            ManagerType managerType) {
         super(IdGenerator.generateUniqueId("M"), firstName, lastName, email, password, salary);
         this.managerType = managerType;
     }
@@ -46,9 +47,9 @@ public class Manager extends Employee {
     public void setSignedRequests(List<Request> signedRequests) {
         this.signedRequests = signedRequests;
     }
-    
+
     public void displayManagerMenu() {
-    	System.out.println("Manager Functions");
+        System.out.println("Manager Functions");
         System.out.println("1. Create Lessons for a Course");
         System.out.println("2. Assign Course to a Teacher");
         System.out.println("3. View Teacher Info");
@@ -68,9 +69,10 @@ public class Manager extends Employee {
 
     @Override
     public void displayFunct() {
-    	Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         int choice;
         do {
+            displayManagerMenu();
             choice = getChoice(scanner);
             scanner.nextLine();
 
@@ -112,10 +114,10 @@ public class Manager extends Employee {
                     fetchUnsignedRequests();
                     break;
                 case 13:
-                	handleSendMessageToUser(scanner);
+                    handleSendMessageToUser(scanner);
                     break;
                 case 14:
-                	viewReceivedMessages();
+                    viewReceivedMessages();
                     break;
                 case 0:
                     System.out.println("Exiting Manager Menu.");
@@ -126,29 +128,29 @@ public class Manager extends Employee {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 0);
-        //scanner.close();
+        // scanner.close();
     }
-    
+
     private int getChoice(Scanner scanner) {
         System.out.print("Enter your choice: ");
         try {
-        	return scanner.nextInt();
-        }catch(Exception e) {
-        	return -1;
+            return scanner.nextInt();
+        } catch (Exception e) {
+            return -1;
         }
-        
+
     }
-    
+
     private void handleSendMessageToUser(Scanner scanner) {
         System.out.print("Enter user ID to send message: ");
         String userId = scanner.nextLine();
-        
+
         System.out.print("Enter message content: ");
         String content = scanner.nextLine();
-        
+
         sendMessageToUserById(userId, content);
     }
-    
+
     public void sendMessageToUserById(String userId, String content) {
         User user = UserRepository.getInstance().getUserById(userId);
         if (user instanceof Employee) {
@@ -171,7 +173,7 @@ public class Manager extends Employee {
             }
         }
     }
-    
+
     private void handleCreateLessons(Scanner scanner) {
         System.out.print("Enter the course code to create lessons for: ");
         String courseCode = scanner.nextLine();
@@ -191,7 +193,7 @@ public class Manager extends Employee {
         scanner.nextLine();
         List<Lesson> lessons = new ArrayList<>();
         List<Teacher> teachersForCourse = TeacherRepository.getInstance().getAllTeachersByCourse(course);
-        
+
         if (teachersForCourse.isEmpty()) {
             System.out.println("No teachers are assigned to this course. Please assign a teacher first.");
             return;
@@ -225,19 +227,19 @@ public class Manager extends Employee {
 
         course.setLessons(lessons);
         if (!selectedTeacher.getCourseCodes().contains(course.getCourseCode())) {
-        	assignCourseToTeacher(selectedTeacher, course);
+            assignCourseToTeacher(selectedTeacher, course);
         }
         System.out.println("Lessons successfully added to the course: " + course.getCourseName());
         scanner.close();
     }
 
+    // public void approveRegistration(Student student) {
+    // StudentRepository studentRepository = StudentRepository.getInstance();
+    // studentRepository.approveStudentRegistration(student);
+    // System.out.println("Registration approved for student: " +
+    // student.getFirstName() + " " + student.getLastName());
+    // }
 
-//    public void approveRegistration(Student student) {
-//        StudentRepository studentRepository = StudentRepository.getInstance();
-//        studentRepository.approveStudentRegistration(student);
-//        System.out.println("Registration approved for student: " + student.getFirstName() + " " + student.getLastName());
-//    }
-    
     private void handleAssignCourse(Scanner scanner) {
         System.out.print("Enter the teacher ID: ");
         String teacherId = scanner.nextLine();
@@ -253,17 +255,19 @@ public class Manager extends Employee {
             System.out.println("Invalid teacher ID or course code. Please try again.");
         }
     }
-    
+
     public void assignCourseToTeacher(Teacher teacher, Course course) {
         if (!teacher.getCourseCodes().contains(course.getCourseCode())) {
             teacher.addCourse(course.getCourseCode());
             TeacherRepository.getInstance().addTeacher(teacher);
-            System.out.println("Course " + course.getCourseName() + " assigned to teacher " + teacher.getFirstName() + " " + teacher.getLastName());
+            System.out.println("Course " + course.getCourseName() + " assigned to teacher " + teacher.getFirstName()
+                    + " " + teacher.getLastName());
         } else {
-            System.out.println("Teacher " + teacher.getFirstName() + " " + teacher.getLastName() + " is already teaching course " + course.getCourseName());
+            System.out.println("Teacher " + teacher.getFirstName() + " " + teacher.getLastName()
+                    + " is already teaching course " + course.getCourseName());
         }
     }
-    
+
     private void handleViewTeacherInfo(Scanner scanner) {
         System.out.print("Enter the teacher ID: ");
         String teacherId = scanner.nextLine();
@@ -277,7 +281,8 @@ public class Manager extends Employee {
     }
 
     public String viewTeacherInfo(Teacher teacher) {
-        return "Teacher Info: " + teacher.getFirstName() + " " + teacher.getLastName() + ", Email: " + teacher.getEmail();
+        return "Teacher Info: " + teacher.getFirstName() + " " + teacher.getLastName() + ", Email: "
+                + teacher.getEmail();
     }
 
     private void handleViewStudentInfo(Scanner scanner) {
@@ -291,9 +296,10 @@ public class Manager extends Employee {
             System.out.println("Student not found.");
         }
     }
-    
+
     public String viewStudentInfo(Student student) {
-        return "Student Info: " + student.getFirstName() + " " + student.getLastName() + ", Email: " + student.getEmail();
+        return "Student Info: " + student.getFirstName() + " " + student.getLastName() + ", Email: "
+                + student.getEmail();
     }
 
     private void handleViewTranscript(Scanner scanner) {
@@ -307,12 +313,12 @@ public class Manager extends Employee {
             System.out.println("Student not found.");
         }
     }
-    
+
     public void viewTranscript(Student student) {
         System.out.println("Transcript for " + student.getFirstName() + " " + student.getLastName() + ":");
         student.viewTranscript();
     }
-    
+
     private void handleCreateReport(Scanner scanner) {
         System.out.print("Enter the report content: ");
         String reportContent = scanner.nextLine();
@@ -403,24 +409,22 @@ public class Manager extends Employee {
         this.setSignedRequests(requests);
         System.out.println("Fetched " + requests.size() + " unsigned requests.");
     }
-    
+
     @Override
     public String toString() {
         return String.format("+---------------------------------------------+\n" +
-                             "| %-15s | %-28s |\n" +
-                             "+---------------------------------------------+\n" +
-                             "| %-15s | %-28s |\n" +
-                             "| %-15s | %-28s |\n" +
-                             "| %-15s | %-28s |\n" +
-                             "| %-15s | %-28s |\n" +
-                             "+---------------------------------------------+\n", 
-                             "Manager ID", getId(),
-                             "Full Name", getFullName(),
-                             "Manager Type", managerType,
-                             "Salary", getSalary(),
-                             "Email", getEmail());
+                "| %-15s | %-28s |\n" +
+                "+---------------------------------------------+\n" +
+                "| %-15s | %-28s |\n" +
+                "| %-15s | %-28s |\n" +
+                "| %-15s | %-28s |\n" +
+                "| %-15s | %-28s |\n" +
+                "+---------------------------------------------+\n",
+                "Manager ID", getId(),
+                "Full Name", getFullName(),
+                "Manager Type", managerType,
+                "Salary", getSalary(),
+                "Email", getEmail());
     }
 
 }
-
-
