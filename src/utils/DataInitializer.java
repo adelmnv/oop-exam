@@ -12,6 +12,7 @@ import repositories.CourseRepository;
 import repositories.JournalRepository;
 import repositories.ResearchProjectRepository;
 import repositories.ResearcherRepository;
+import repositories.StudentOrganizationRepository;
 import repositories.UserRepository;
 import research.ResearchPaper;
 import research.ResearchProject;
@@ -23,6 +24,7 @@ import users.Dean;
 import users.FinanceManager;
 import users.Manager;
 import users.Student;
+import users.StudentOrganization;
 import users.Teacher;
 
 public class DataInitializer {
@@ -162,6 +164,16 @@ public class DataInitializer {
         
         newsManager.addNews(new News("The university is introducing new research grants for students.", "New Research Grants Announced", NewsTopic.ANNOUNCEMENT));
         newsManager.addNews(new News("New internship opportunities available for computer science students.", "Internship Opportunities", NewsTopic.ANNOUNCEMENT));
+        
+        StudentOrganization codingClub = new StudentOrganization("Coding Club");
+        
+        codingClub.addMember(student1, "President");
+        codingClub.addMember(student2, "SMM");
+
+        codingClub.getEvents().add("Hackathon");
+        codingClub.getEvents().add("Coding Bootcamp");
+        
+        StudentOrganizationRepository.getInstance().addOrganization(codingClub);
 
         
         userRepository.saveAllUsers();
