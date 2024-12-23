@@ -129,7 +129,8 @@ public abstract class User implements Serializable, Observer {
 		} else {
 			System.out.println("News List:");
 			for (News news : newsList) {
-				System.out.println(news.getTitle() + " - " + news.getDescription());
+	            System.out.println(news);
+	            System.out.println("------------------------------");
 			}
 		}
 	}

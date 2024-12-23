@@ -230,7 +230,7 @@ public class Manager extends Employee {
             assignCourseToTeacher(selectedTeacher, course);
         }
         System.out.println("Lessons successfully added to the course: " + course.getCourseName());
-        scanner.close();
+        //scanner.close();
     }
 
     // public void approveRegistration(Student student) {
@@ -375,7 +375,7 @@ public class Manager extends Employee {
                 System.out.println("Invalid option, try again.");
             }
         }
-        scanner.close();
+        //scanner.close();
     }
 
     public void viewSignedRequest() {
