@@ -381,6 +381,12 @@ public class Manager extends Employee {
     public void viewSignedRequest() {
         signedRequests.forEach(request -> System.out.println(request));
     }
+    
+    public void fetchSignedRequests() {
+        List<Request> requests = RequestRepository.getInstance().getSignedRequests();
+        System.out.println("Fetched " + requests.size() + " signed requests.");
+        this.setSignedRequests(requests);
+    }
 
     public List<Student> giveListOfStudents() {
         StudentRepository studentRepository = StudentRepository.getInstance();

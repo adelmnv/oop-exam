@@ -1,6 +1,7 @@
 package users;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -14,9 +15,17 @@ import grading.GradeBook;
 import grading.Mark;
 import repositories.ComplaintRepository;
 import research.TeacherResearcher;
+import research.ComparatorByCitation;
+import research.ComparatorByDate;
+import research.ComparatorByPages;
+import research.ResearchPaper;
+import research.ResearchProject;
 import research.Researcher;
+import research.StudentResearcher;
 import studying.Course;
 import repositories.CourseRepository;
+import repositories.ResearchProjectRepository;
+import repositories.ResearcherRepository;
 import repositories.StudentRepository;
 import repositories.UserRepository;
 import studying.Lesson;
@@ -76,6 +85,16 @@ public class Teacher extends Employee {
         System.out.println("8. View Schedule");
         System.out.println("9. Send Message to User by ID");
         System.out.println("10. View Received Messages");
+        System.out.println("11. Create Request");
+        if (ResearcherRepository.getInstance().exists(this)) {
+        	System.out.println("Available Researcher Actions:");
+            System.out.println("12. Publish a research paper");
+            System.out.println("13. View publications");
+            System.out.println("14. Propose a new research project");
+            System.out.println("15. Join an existing project");
+            System.out.println("16. Become project leader");
+            System.out.println("17. View research projects");
+        }
 	}
 	
 	private int getChoice(Scanner scanner) {
@@ -133,6 +152,27 @@ public class Teacher extends Employee {
 		            case 10:
 		            	viewReceivedMessages();
 		                break;
+		            case 11:
+	                    handleCreateRequest(scanner);
+	                    break;
+		            case 12:
+                        publishResearchPaperMenu(scanner);
+                        break;
+                    case 13:
+                        sortPublicationsMenu(scanner);
+                        break;
+                    case 14:
+                        proposeResearchProjectMenu(scanner);
+                        break;
+                    case 15:
+                        joinResearchProjectMenu(scanner);
+                        break;
+                    case 16:
+                        leadResearchProjectMenu(scanner);
+                        break;
+                    case 17:
+                        viewResearchProjects();
+                        break;
 		            default:
 		                System.out.println("Invalid choice. Please select a valid option.");
 		        }
@@ -140,6 +180,101 @@ public class Teacher extends Employee {
 	    }finally {
 	    	//scanner.close();
 	    }
+	}
+	
+	private void publishResearchPaperMenu(Scanner scanner) {
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        System.out.print("Enter paper title: ");
+        String paperTitle = scanner.nextLine();
+        System.out.print("Enter publication year: ");
+        int publicationYear = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter number of pages: ");
+        int numberOfPages = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter citation number: ");
+        int citationNumber = Integer.parseInt(scanner.nextLine());
+        ResearchPaper paper = new ResearchPaper(paperTitle, researcher, publicationYear, numberOfPages, citationNumber);
+        researcher.publishPaper(paper);
+
+        System.out.println("Research paper published: " + paper.getTitle());
+    }
+
+    private void sortPublicationsMenu(Scanner scanner) {
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        System.out.println("Available Sorting Options for Publications:");
+        System.out.println("1. Sort by Citations");
+        System.out.println("2. Sort by Publication Date");
+        System.out.println("3. Sort by Number of Pages");
+
+        System.out.print("Enter choice: ");
+        int sortChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        Comparator<ResearchPaper> comparator = null;
+
+        switch (sortChoice) {
+            case 1:
+                comparator = new ComparatorByCitation();
+                break;
+            case 2:
+                comparator = new ComparatorByDate();
+                break;
+            case 3:
+                comparator = new ComparatorByPages();
+                break;
+            default:
+                System.out.println("Invalid choice. Using default sorting.");
+                comparator = new ComparatorByCitation();
+                break;
+        }
+
+        System.out.println("Your Publications (sorted by chosen option):");
+        researcher.printPapers(comparator);
+    }
+
+    private void proposeResearchProjectMenu(Scanner scanner) {
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        System.out.print("Enter project name: ");
+        String projectName = scanner.nextLine();
+        researcher.proposeProject(projectName);
+    }
+
+    private void joinResearchProjectMenu(Scanner scanner) {
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        System.out.print("Enter project name to join: ");
+        String joinProjectName = scanner.nextLine();
+        ResearchProject projectToJoin = ResearchProjectRepository.getInstance().getProjectByName(joinProjectName);
+        if (projectToJoin != null) {
+            researcher.joinProject(projectToJoin);
+        } else {
+            System.out.println("Project not found.");
+        }
+    }
+
+    private void leadResearchProjectMenu(Scanner scanner) {
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        System.out.print("Enter project name to lead: ");
+        String leadProjectName = scanner.nextLine();
+        ResearchProject projectToLead = ResearchProjectRepository.getInstance().getProjectByName(leadProjectName);
+        if (projectToLead != null) {
+            researcher.becomeProjectLeader(projectToLead);
+        } else {
+            System.out.println("Project not found.");
+        }
+    }
+
+    private void viewResearchProjects() {
+        StudentResearcher researcher = (StudentResearcher) ResearcherRepository.getInstance().getResearcherByUser(this);
+        System.out.print("Research Projects where student participating: ");
+        ResearchProjectRepository.getInstance().getProjectsByResearcher(researcher);
+    }
+	
+	private void handleCreateRequest(Scanner scanner) {
+	    System.out.println("Enter the content of the request:");
+	    String content = scanner.nextLine();
+
+	    createRequest(content);
+
+	    System.out.println("Your request has been created successfully.");
 	}
 	
 	private void handleGradeStudent(Scanner scanner) {
@@ -462,11 +597,9 @@ public class Teacher extends Employee {
         return schedule.toString();
     }
     
-    @Override
-    public Researcher becomeResearcher() {
-    	Researcher researcher = new TeacherResearcher(this);
+    public void becomeResearcher() {
+    	ResearcherRepository.getInstance().addResearcher(this);
         System.out.println(getFullName() + " is now a researcher.");
-        return researcher;
     }
     
     @Override

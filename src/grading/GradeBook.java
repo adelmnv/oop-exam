@@ -1,10 +1,12 @@
 package grading;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GradeBook {
+public class GradeBook implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private Mark mark;
 	private List<Date> attendanceList = new ArrayList<>();
 	

@@ -53,8 +53,8 @@ public class EmployeeTest {
         }
 
         // Demonstrate becoming a researcher
-        Researcher researcher = employee1.becomeResearcher();
-        System.out.println("Researcher Name: " + researcher.getResearcherName());
+//        Researcher researcher = employee1.becomeResearcher();
+//        System.out.println("Researcher Name: " + researcher.getResearcherName());
 
        
     }

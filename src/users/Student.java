@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import enums.Faculty;
 import grading.GradeBook;
@@ -103,6 +104,12 @@ public class Student extends User {
 
     public Map<Course, List<Lesson>> getRegisteredCourses() {
         return registeredCourses;
+    }
+    
+    public List<String> getCourseCodes() {
+        return registeredCourses.keySet().stream()
+                .map(Course::getCourseCode)
+                .collect(Collectors.toList());
     }
 
     private boolean isStudentLimitAvailable(Course course) {
@@ -273,13 +280,15 @@ public class Student extends User {
                 "| %-15s | %-28s |\n" +
                 "| %-15s | %-28s |\n" +
                 "| %-15s | %-28s |\n" +
+                "| %-15s | %-28s |\n" +
                 "+---------------------------------------------+\n",
                 "Student ID", getId(),
                 "Full Name", getFullName(),
                 "Year of Study", yearOfStudy,
                 "Faculty", faculty,
                 "Scholarship", canHaveScholarship ? "Yes" : "No",
-                "Supervisor", (supervisor != null ? supervisor.getResearcherName() : "No supervisor"));
+                "Supervisor", (supervisor != null ? supervisor.getResearcherName() : "No supervisor"),
+        		"Courses", (getCourseCodes() != null ? getCourseCodes() : "No courses"));
     }
 
     @Override

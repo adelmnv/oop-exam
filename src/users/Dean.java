@@ -87,7 +87,7 @@ public class Dean extends Employee{
         Scanner scanner = new Scanner(System.in);
         int choice;
         do {
-            displayFunct();
+        	displayDeanMenu();
             choice = getChoice(scanner);
             scanner.nextLine();
             switch (choice) {

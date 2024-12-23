@@ -71,4 +71,9 @@ public class Lesson implements Serializable{
 	    return details.toString();
 	}
 	
+	@Override
+	public String toString() {
+		return getLessonDetails();
+	}
+	
 }

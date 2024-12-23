@@ -7,6 +7,7 @@ import communication.Message;
 import communication.Request;
 import repositories.MessageRepository;
 import repositories.RequestRepository;
+import repositories.ResearcherRepository;
 import research.EmployeeResearcher;
 import research.Researcher;
 
@@ -82,10 +83,9 @@ public abstract class Employee extends User{
     
     public abstract void displayFunct();
     
-    public Researcher becomeResearcher() {
-    	Researcher researcher = new EmployeeResearcher(this);
+    public void becomeResearcher() {
+    	ResearcherRepository.getInstance().addResearcher(this);
         System.out.println(getFullName() + " is now a researcher.");
-        return researcher;
     }
 
 }

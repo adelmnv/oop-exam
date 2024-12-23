@@ -1,7 +1,10 @@
 package grading;
 
-public class Mark {
-    private Double firstAttestation;
+import java.io.Serializable;
+
+public class Mark implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private Double firstAttestation;
     private Double secondAttestation;
     private Double finalExam;
 

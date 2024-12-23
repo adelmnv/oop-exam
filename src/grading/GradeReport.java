@@ -1,10 +1,13 @@
 package grading;
 
+import java.io.Serializable;
+
 import studying.Course;
 import users.Student;
 
-public class GradeReport {
-    private Mark mark;
+public class GradeReport implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private Mark mark;
     private Course course;
 
     public GradeReport(Mark mark, Course course) {

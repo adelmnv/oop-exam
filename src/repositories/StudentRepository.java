@@ -30,7 +30,7 @@ public class StudentRepository {
 
     public Student findStudentById(String studentId) {
     	return UserRepository.getInstance().getUsersForType(Student.class).stream()
-                .filter(teacher -> teacher.getId().equals(studentId))
+                .filter(student -> student.getId().equals(studentId))
                 .findFirst()
                 .orElse(null);
     }
